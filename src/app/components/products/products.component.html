@@ -1,0 +1,184 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="card-title">Productos</h4>
+                            </div>
+                            <div class="col">
+                                <form class="navbar-form">
+                                    <div class="input-group no-border">
+                                        <input type="text" value="" class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="id" placeholder="Buscar por id...">
+                                        <button mat-raised-button type="submit" (click)="getProduct()" class="btn btn-white btn-round btn-just-icon">
+                                            <i class="material-icons">search</i>
+                                            <div class="ripple-container"></div>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                     
+                        <mat-card *ngIf="product" class="example-card ">
+                            <mat-card-header>
+                                <img mat-card-avatar class="example-header-image" src="{{product.imagenes_Producto[0]}}" alt="">
+                                <mat-card-title style="color: black" color='primary'>{{product.id_Producto}}</mat-card-title>
+                                <mat-card-subtitle>{{product.titulo}}</mat-card-subtitle>
+                            </mat-card-header>
+                            
+                            <mat-card-content>
+                                <div class="row">
+                                    <div class="col">
+                                        <mat-expansion-panel (opened)="panelOpenState = true"
+                                            (closed)="panelOpenState = false">
+                                            <mat-expansion-panel-header>
+                                                <mat-panel-title>
+                                                    Descripcion
+                                                </mat-panel-title>
+                                            </mat-expansion-panel-header>
+                                                <p class="text-center">{{product.descripcion}}</p>
+                                        </mat-expansion-panel>
+                                    </div>
+
+                                    <br>
+
+                                    <div class="col">
+                                        <mat-expansion-panel (opened)="panelOpenState = true"
+                                            (closed)="panelOpenState = false">
+                                            <mat-expansion-panel-header>
+                                                <mat-panel-title>
+                                                    Medidas
+                                                </mat-panel-title>
+                                            </mat-expansion-panel-header>
+                                                <mat-list>
+                                                    <mat-list-item>
+                                                      <mat-icon mat-list-icon>fitness_center</mat-icon>
+                                                      <h4 mat-line>Peso</h4>
+                                                      <p mat-line> {{ product.peso | number}} </p>
+                                                    </mat-list-item>
+            
+                                                    <mat-list-item>
+                                                      <mat-icon mat-list-icon>text_rotate_up</mat-icon>
+                                                      <h4 mat-line>Alto</h4>
+                                                      <p mat-line> {{ product.alto | number}} </p>
+                                                    </mat-list-item>
+
+                                                    <mat-list-item>
+                                                        <mat-icon mat-list-icon>text_rotation_none</mat-icon>
+                                                        <h4 mat-line>Largo</h4>
+                                                        <p mat-line> {{ product.largo | number}} </p>
+                                                    </mat-list-item>
+
+                                                    <mat-list-item>
+                                                        <mat-icon mat-list-icon>360</mat-icon>
+                                                        <h4 mat-line>Ancho</h4>
+                                                        <p mat-line> {{ product.ancho | number}} </p>
+                                                    </mat-list-item>
+
+                                                    <mat-list-item>
+                                                        <mat-icon [ngStyle]="product.color ? {'color' : product.color} : ''" mat-list-icon>colorize</mat-icon>
+                                                        <h4 mat-line>Color</h4>
+                                                        <p mat-line> {{ product.color}} </p>
+                                                    </mat-list-item>
+
+                                                    <mat-list-item>
+                                                        <mat-icon mat-list-icon>exposure_plus_1
+                                                            </mat-icon>
+                                                        <h4 mat-line>Stock</h4>
+                                                        <p mat-line> {{ product.Stock}} </p>
+                                                    </mat-list-item>
+
+                                                </mat-list>
+                                        </mat-expansion-panel>
+                                    </div>
+                                </div>
+
+                                <br>
+                                
+                                <div class="row">
+                                    <div class="col">
+                                        <mat-expansion-panel (opened)="panelOpenState = true"
+                                            (closed)="panelOpenState = false">
+                                            <mat-expansion-panel-header>
+                                                <mat-panel-title>
+                                                    Categorias
+                                                </mat-panel-title>
+                                            </mat-expansion-panel-header>
+
+                                                <mat-list *ngFor="let category of product.breadcrum[0].path_from_root">
+                                                    <mat-list-item>
+                                                        <mat-icon mat-list-icon>bookmark_border</mat-icon>
+                                                        <h4 mat-line>{{category.complete_name}}</h4>
+                                                    </mat-list-item>
+                                                </mat-list>
+                                        </mat-expansion-panel>
+                                    </div>
+
+                                    <br>
+                                    
+                                    <div class="col">
+                                        <mat-expansion-panel (opened)="panelOpenState = true"
+                                            (closed)="panelOpenState = false">
+                                            <mat-expansion-panel-header>
+                                                <mat-panel-title>
+                                                    Pago
+                                                </mat-panel-title>
+                                            </mat-expansion-panel-header>
+                                                <mat-list>
+                                                    <mat-list-item>
+                                                        <mat-icon mat-list-icon>attach_money</mat-icon>
+                                                        <h4 mat-line>Precio</h4>
+                                                        <h4 *ngIf="!availableEdit"  (dblclick)="availableEdit = true" mat-line>
+                                                                {{ product.precio | currency}} 
+                                                        </h4>
+                                                        <input *ngIf="availableEdit" [(ngModel)]="product.precio" type="text">
+                                                    </mat-list-item>
+            
+                                                    <mat-list-item>
+                                                        <mat-icon mat-list-icon>trending_down</mat-icon>
+                                                        <h4 mat-line>Precio descuento</h4>
+                                                        <h4 *ngIf="!availableEdit"  (dblclick)="availableEdit = true" mat-line>
+                                                                {{ product.precio_Descuento | currency}} 
+                                                        </h4>
+                                                        <input *ngIf="availableEdit" [(ngModel)]="product.precio_Descuento" type="text">
+                                                    </mat-list-item>
+
+                                                </mat-list>
+                                        </mat-expansion-panel>
+                                    </div>
+
+                                    <br>
+                                    
+                                    <div class="col">
+                                        <mat-expansion-panel (opened)="panelOpenState = true"
+                                            (closed)="panelOpenState = false">
+                                            <mat-expansion-panel-header>
+                                                <mat-panel-title>
+                                                    Imagenes
+                                                </mat-panel-title>
+                                            </mat-expansion-panel-header>
+                                                <mat-list *ngFor="let img of product.imagenes_Producto">
+                                                    <mat-list-item>
+                                                        <img mat-card-avatar class="example-header-image" src="{{img}}" alt="">
+                                                    </mat-list-item>
+                                                </mat-list>
+                                        </mat-expansion-panel>
+                                    </div>
+                                </div>
+                               
+                            </mat-card-content>
+                            <mat-card-actions>
+                                <!-- <button mat-button>LIKE</button>
+                                <button mat-button>SHARE</button> -->
+                            </mat-card-actions>
+                        </mat-card>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
