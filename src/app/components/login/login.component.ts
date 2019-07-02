@@ -11,6 +11,7 @@ import { User } from './user/user.model';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  public hide = true;
   public year = new Date().getFullYear();
 
   /* yxowaho-5673@yopmail.com
