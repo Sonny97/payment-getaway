@@ -13,6 +13,6 @@ export class ProductsService {
    * getProduct
    */
   public getProduct(id): Observable<any> {
-    return this.http.get<any>(`http://10.4.28.90:4446/Producto/info?id=${id}`);
+    return this.http.get<any>(`http://10.4.28.9:4446/Producto/info?id=${id}`);
   }
 }

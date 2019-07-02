@@ -13,7 +13,7 @@ export class QuestionsService {
    * getAllQuestions
    */
   public getAllQuestions(): Observable<any> {
-    return this.http.get<any>('http://10.4.28.90:7894/get_all_qa');
+    return this.http.get<any>('http://10.4.28.9:7894/get_all_qa');
   }
 
   /**
@@ -23,7 +23,7 @@ export class QuestionsService {
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
     headers.append('Access-Control-Allow-Origin', '*');
-    return this.http.post<any>('http://10.4.28.90:7894/insert_answers',
+    return this.http.post<any>('http://10.4.28.9:7894/insert_answers',
     {
       id_pregunta: question.id,
       respuesta: question.answer
