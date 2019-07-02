@@ -132,8 +132,11 @@
                                                     <mat-list-item>
                                                         <mat-icon mat-list-icon>attach_money</mat-icon>
                                                         <h4 mat-line>Precio</h4>
-                                                        <h4 *ngIf="!availableEdit"  (dblclick)="availableEdit = true" mat-line>
+                                                        <!-- <h4 *ngIf="!availableEdit"  (dblclick)="availableEdit = true" mat-line>
                                                                 {{ product.precio | currency}} 
+                                                        </h4> -->
+                                                        <h4  mat-line>
+                                                            {{ product.precio | currency}} 
                                                         </h4>
                                                         <input *ngIf="availableEdit" [(ngModel)]="product.precio" type="text">
                                                     </mat-list-item>
@@ -141,8 +144,11 @@
                                                     <mat-list-item>
                                                         <mat-icon mat-list-icon>trending_down</mat-icon>
                                                         <h4 mat-line>Precio descuento</h4>
-                                                        <h4 *ngIf="!availableEdit"  (dblclick)="availableEdit = true" mat-line>
-                                                                {{ product.precio_Descuento | currency}} 
+                                                      <!--   <h4 *ngIf="!availableEdit"  (dblclick)="availableEdit = true" mat-line>
+                                                            {{ product.precio_Descuento | currency}} 
+                                                        </h4> -->
+                                                        <h4 mat-line>
+                                                            {{ product.precio_Descuento | currency}} 
                                                         </h4>
                                                         <input *ngIf="availableEdit" [(ngModel)]="product.precio_Descuento" type="text">
                                                     </mat-list-item>
