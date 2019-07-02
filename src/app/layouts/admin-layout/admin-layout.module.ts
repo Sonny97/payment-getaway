@@ -12,23 +12,7 @@ import { ProductsComponent } from 'app/components/products/products.component';
 
 import { QuestionsService } from 'app/services/questions.service';
 import { ProductsService } from 'app/services/products.service';
-
-import {
-  MatButtonModule,
-  MatInputModule,
-  MatRippleModule,
-  MatFormFieldModule,
-  MatTooltipModule,
-  MatSelectModule,
-  MatSnackBarModule,
-  MatExpansionModule,
-  MatListModule,
-  MatIconModule,
-  MatTreeModule,
-  MatCardModule,
-  MatTableModule,
-  MatPaginator
-} from '@angular/material';
+import { AngularMaterialModule } from 'app/angular-material/angular-material.module';
 
 @NgModule({
   imports: [
@@ -36,19 +20,7 @@ import {
     RouterModule.forChild(AdminLayoutRoutes),
     FormsModule,
     ReactiveFormsModule,
-    MatButtonModule,
-    MatRippleModule,
-    MatFormFieldModule,
-    MatExpansionModule,
-    MatTreeModule,
-    MatSnackBarModule,
-    MatInputModule,
-    MatIconModule,
-    MatSelectModule,
-    MatTooltipModule,
-    MatListModule,
-    MatCardModule,
-    MatTableModule,
+    AngularMaterialModule,
     HttpClientModule
   ],
   declarations: [
@@ -56,8 +28,7 @@ import {
     UserProfileComponent,
     QuestionComponent,
     NotificationsComponent,
-    ProductsComponent,
-    MatPaginator,
+    ProductsComponent
   ],
   providers: [
     QuestionsService,
