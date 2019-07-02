@@ -1,0 +1,62 @@
+<nav class="navbar justify-content-between nav-bar-logo">
+  <div class="content-nav-logo">
+    <a href="https://kiero.co/"><img src="https://s3-us-west-2.amazonaws.com/resourcekiero/logo_kiero.png" width="88px"
+        height="64px"></a>
+
+    <div class="help">Ayuda</div>
+  </div>
+</nav>
+
+<br>
+<br>
+
+<div class="container">
+  <mat-card class="example-card">
+    <mat-card-header>
+      <mat-card-title>Iniciar sesión</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div class="row">
+        <div class="col">
+          <mat-form-field>
+            <input #username name="username" matInput placeholder="Ingresa usuario o correo" type="text">
+            <button mat-icon-button matSuffix>
+              <mat-icon>person
+              </mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field>
+            <input matInput #password name="password" placeholder="Ingresa tu contraseña"
+              [type]="hide ? 'password' : 'text'">
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide">
+              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <button type="submit" mat-raised-button color='warn' (click)="logIn(username.value, password.value, $event)"
+          id="login-button">Ingresar</button>
+      </div>
+    </mat-card-content>
+    <!-- <mat-card-actions>
+      <button mat-button>LIKE</button>
+      <button mat-button>SHARE</button>
+    </mat-card-actions> -->
+  </mat-card>
+</div>
+
+<footer>
+  <div class="footer">
+    <div class="container1">
+      <div class="text-center">
+        <h6>© {{ year }} Kiero. Todos los derechos reservados.</h6>
+      </div>
+    </div>
+  </div>
+</footer>
