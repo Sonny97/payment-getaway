@@ -2,7 +2,7 @@ import { Component, OnInit, ElementRef } from '@angular/core';
 import { ROUTES } from '../sidebar/sidebar.component';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { Router } from '@angular/router';
-import { UserService } from 'app/services/user.service';
+import { UserService } from 'app/login/services/user.service';
 
 @Component({
     selector: 'app-navbar',
