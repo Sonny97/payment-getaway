@@ -12,11 +12,9 @@ import {
 } from '@agm/core';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 
-import { LoginComponent } from './components/login/login.component';
-import { LoginService } from './services/login.service';
 import { HttpClientModule } from '@angular/common/http';
-import { UserService } from './services/user.service';
 import { AngularMaterialModule } from './angular-material/angular-material.module';
+import { LoginModule } from './login/login.module';
 
 @NgModule({
   imports: [
@@ -31,16 +29,14 @@ import { AngularMaterialModule } from './angular-material/angular-material.modul
     AppRoutingModule,
     AgmCoreModule.forRoot({
       apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
-    })
+    }),
+    LoginModule
   ],
   declarations: [
     AppComponent,
-    AdminLayoutComponent,
-    LoginComponent
+    AdminLayoutComponent
   ],
   providers: [
-    LoginService,
-    UserService
   ],
   bootstrap: [AppComponent]
 })
