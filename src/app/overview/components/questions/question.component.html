@@ -1,0 +1,80 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title ">Preguntas y respuestas</h4>
+                        <button (click)="closeAllModals()" mat-icon-button aria-label="Example icon-button with a heart icon">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="table-responsive">
+                            <table mat-table [dataSource]="dataSource" matSort>
+
+                                <!-- ID Column -->
+                                <ng-container matColumnDef="id">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.id}} </td>
+                                </ng-container>
+
+                                <!-- nickname Column -->
+                                <ng-container matColumnDef="Usuario">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Usuario </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.nickname}}</td>
+                                </ng-container>
+
+                                <!-- Producto_Id Column -->
+                                <ng-container matColumnDef="Producto">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Producto </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <button (click)="openDetailProduct(row)"
+                                            mat-raised-button>{{row.Producto_Id}}</button>
+                                    </td>
+                                </ng-container>
+
+                                <!-- descripcion_Pregunta Column -->
+                                <ng-container matColumnDef="Pregunta">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Pregunta </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.descripcion_Pregunta}} </td>
+                                </ng-container>
+
+                                <!-- answer Column -->
+                                <ng-container matColumnDef="Respuesta">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Respuesta </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <form class="example-form">
+                                            <mat-form-field class="example-full-width">
+                                                <textarea rows="4" [ngModelOptions]="{standalone: true}"
+                                                    [(ngModel)]="row.answer" matInput
+                                                    placeholder="Deja una respuesta"></textarea>
+                                            </mat-form-field>
+                                        </form>
+                                    </td>
+                                </ng-container>
+
+                                <!-- Actions Column -->
+                                <ng-container matColumnDef="Acciones">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <div class="text-center">
+                                            <button color='warn' (click)="sendAnswer(row)"
+                                                mat-raised-button>Responder</button>
+                                        </div>
+                                    </td>
+                                </ng-container>
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                            </table>
+
+                            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
