@@ -6,7 +6,7 @@ import { Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import PerfectScrollbar from 'perfect-scrollbar';
 import * as $ from 'jquery';
-import { UserService } from 'app/services/user.service';
+import { UserService } from 'app/login/services/user.service';
 
 @Component({
     selector: 'app-admin-layout',
