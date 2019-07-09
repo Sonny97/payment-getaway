@@ -8,47 +8,199 @@
                             <div class="row">
                                 <div class="col-md-8">
                                     <div class="row">
-                                        <div class="col-md-4">
+                                        <div class="col">
+
+                                            <!-- Preguntas   -->
                                             <mat-card class="mat-card-m">
                                                 <mat-card-header>
-                                                    <mat-card-title style="color: black">
+                                                    <mat-card-title class="over-title">
                                                         <mat-icon mat-list-icon>question_answer</mat-icon>  Preguntas 
                                                     </mat-card-title>
-                                                    <h5></h5>
                                                 </mat-card-header>
                                                 <mat-card-content>
-                                                    <mat-list style="margin-left: 8%">
+                                                    <mat-list style="margin-left: 5%">
                                                         <mat-list-item>
-                                                            <h4 mat-line> 
+                                                            <h5 mat-line> 
                                                                 <button [style.background-color]="countQuestions > 0 ? '#cf0a2c' : ''" (click)="openDialogQuestions()" class="btn btn-sm">{{ countQuestions }}</button>
                                                                 <a (click)="openDialogQuestions()" href="http://" target="_blank" rel="noopener noreferrer">  Por responder</a>
-                                                            </h4>
+                                                            </h5>
                                                         </mat-list-item>
                                                     </mat-list>
                                                 </mat-card-content>
                                             </mat-card>
+
                                             <br>
+
+                                           <!--  Publicaciones -->
+                                            <mat-card class="mat-card-m">
+                                                <mat-card-header>
+                                                    <mat-card-title class="over-title">
+                                                        <mat-icon mat-list-icon>bookmarks</mat-icon>  Publicaciones 
+                                                    </mat-card-title>
+                                                </mat-card-header>
+                                                <mat-card-content>
+                                                    <mat-list style="margin-left: 5%">
+                                                        <mat-list-item>
+                                                            <h5 mat-line> 
+                                                                <button (click)="openDialogQuestions()" class="btn btn-sm">0</button>
+                                                                <a (click)="openDialogQuestions()" href="http://" target="_blank" rel="noopener noreferrer">  Activas</a>
+                                                            </h5>
+                                                        </mat-list-item>
+
+                                                        <mat-list-item>
+                                                            <h5 mat-line> 
+                                                                <button  (click)="openDialogQuestions()" class="btn btn-sm">0</button>
+                                                                <a (click)="openDialogQuestions()" href="http://" target="_blank" rel="noopener noreferrer">  Pausadas</a>
+                                                            </h5>
+                                                        </mat-list-item>
+
+                                                        <mat-list-item>
+                                                            <h5 mat-line> 
+                                                                <button  (click)="openDialogQuestions()" class="btn btn-sm">0</button>
+                                                                <a (click)="openDialogQuestions()" href="http://" target="_blank" rel="noopener noreferrer">  Finalizadas</a>
+                                                            </h5>
+                                                        </mat-list-item>
+
+                                                        <mat-list-item>
+                                                            <h5 mat-line> 
+                                                                <button  (click)="openDialogQuestions()" class="btn btn-sm">0</button>
+                                                                <a (click)="openDialogQuestions()" href="http://" target="_blank" rel="noopener noreferrer">  Por revisar</a>
+                                                            </h5>
+                                                        </mat-list-item>
+
+                                                    </mat-list>
+                                                </mat-card-content>
+                                            </mat-card>
+
+                                        </div>
+
+                                        <div class="col">
+
+                                            <!-- Operaciones   -->
+                                            <mat-card class="mat-card-m">
+                                                <mat-card-header>
+                                                    <mat-card-title class="over-title">
+                                                        <mat-icon mat-list-icon>credit_card</mat-icon>  Operaciones 
+                                                    </mat-card-title>
+                                                </mat-card-header>
+                                                <mat-card-content>
+                                                    <mat-list style="margin-left: 5%">
+                                                        <mat-list-item>
+                                                            <h5 mat-line> 
+                                                                <button  (click)="openDialogQuestions()" class="btn btn-sm">0</button>
+                                                                <a (click)="openDialogQuestions()" href="http://" target="_blank" rel="noopener noreferrer">  Ventas pendientes</a>
+                                                            </h5>
+                                                        </mat-list-item>
+                                                    </mat-list>
+                                                </mat-card-content>
+                                            </mat-card>
+
+                                            <br>
+
+                                            <!-- Estadisticas de ventas   -->
+                                            <mat-card class="mat-card-m">
+                                                <mat-card-header>
+                                                    <mat-card-title class="over-title">
+                                                        <mat-icon mat-list-icon>calendar_today</mat-icon>  Estadisticas de ventas 
+                                                    </mat-card-title>
+                                                </mat-card-header>
+                                                <mat-card-content>
+                                                    <div class="row">
+                                                        <mat-tab-group>
+                                                            <mat-tab>
+                                                                <ng-template mat-tab-label>
+                                                                Diario
+                                                                </ng-template>
+                                                                <mat-list style="margin-left: 5%">
+                                                                    <mat-list-item>
+                                                                        <h5 mat-line> 
+                                                                            <button  (click)="openDialogQuestions()" class="btn btn-sm">0</button>
+                                                                            Hoy
+                                                                        </h5>
+                                                                    </mat-list-item>
+
+                                                                    <mat-list-item>
+                                                                        <h5 mat-line> 
+                                                                            <button  (click)="openDialogQuestions()" class="btn btn-sm">0</button>
+                                                                            Ayer
+                                                                        </h5>
+                                                                    </mat-list-item>
+                                                                </mat-list>
+                                                            </mat-tab>
+                                                            
+                                                            <mat-tab>
+                                                                <ng-template mat-tab-label>
+                                                                Semanal
+                                                                </ng-template>
+                                                                
+                                                                <mat-list style="margin-left: 5%">
+                                                                    <mat-list-item>
+                                                                        <h5 mat-line> 
+                                                                            <button  (click)="openDialogQuestions()" class="btn btn-sm">0</button>
+                                                                            Desde el lunes
+                                                                        </h5>
+                                                                    </mat-list-item>
+
+                                                                    <mat-list-item>
+                                                                        <h5 mat-line> 
+                                                                            <button  (click)="openDialogQuestions()" class="btn btn-sm">0</button>
+                                                                            Semana pasada
+                                                                        </h5>
+                                                                    </mat-list-item>
+
+                                                                    <mat-list-item>
+                                                                        <h5 mat-line> 
+                                                                            <button (click)="openDialogQuestions()" class="btn btn-sm">0</button>
+                                                                            Hace dos semanas
+                                                                        </h5>
+                                                                    </mat-list-item>
+                                                                </mat-list>
+                                                            </mat-tab>
+                                                            
+                                                            <mat-tab>
+                                                                <ng-template mat-tab-label>
+                                                                Mensual
+                                                                </ng-template>
+                                                            
+                                                                <mat-list style="margin-left: 5%">
+                                                                    <mat-list-item>
+                                                                        <h5 mat-line> 
+                                                                            <button (click)="openDialogQuestions()" class="btn btn-sm">0</button>
+                                                                            Este mes
+                                                                        </h5>
+                                                                    </mat-list-item>
+
+                                                                    <mat-list-item>
+                                                                        <h5 mat-line> 
+                                                                            <button  (click)="openDialogQuestions()" class="btn btn-sm">0</button>
+                                                                            Mes pasado
+                                                                        </h5>
+                                                                    </mat-list-item>
+                                                                </mat-list>
+                                                            </mat-tab>
+                                                        </mat-tab-group>
+                                                    </div>
+                                                </mat-card-content>
+                                            </mat-card>
+
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <mat-card class="mat-card-m">
                                             <mat-card-header>
-                                            <div mat-card-avatar class="example-header-image"></div>
-                                            <mat-card-title>Shiba Inu</mat-card-title>
-                                            <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+                                                <mat-card-title class="over-title">
+                                                    Kiero Puntos
+                                                </mat-card-title>
                                             </mat-card-header>
                                             
                                             <mat-card-content>
                                             <p>
-                                                The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-                                                A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-                                                bred for hunting.
+                                              
                                             </p>
                                             </mat-card-content>
                                             <mat-card-actions>
-                                            <button mat-button>LIKE</button>
-                                            <button mat-button>SHARE</button>
+                                        
                                             </mat-card-actions>
                                     </mat-card>
                                 </div>
