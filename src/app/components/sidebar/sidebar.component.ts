@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from 'app/services/user.service';
+import { UserService } from 'app/login/services/user.service';
 import { Router } from '@angular/router';
 
 declare const $: any;
@@ -10,11 +10,8 @@ declare interface RouteInfo {
   class: string;
 }
 export const ROUTES: RouteInfo[] = [
-  { path: '/dashboard', title: 'Dashboard', icon: 'dashboard', class: '' },
-  { path: '/questions', title: 'PQR', icon: 'send', class: '' },
+  { path: '/overview', title: 'Resumen', icon: 'list', class: '' },
   { path: '/products', title: 'Productos', icon: 'loyalty', class: '' },
-  /* { path: '/user-profile', title: 'User Profile',  icon: 'person', class: '' },
-  { path: '/notifications', title: 'Notifications',  icon: 'notifications', class: '' } */
 ];
 
 @Component({
