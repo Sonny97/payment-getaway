@@ -21,8 +21,8 @@
                             <table mat-table [dataSource]="dataSource" matSort>
 
                                 <!-- ID Column -->
-                                <ng-container matColumnDef="id">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+                                <ng-container matColumnDef="Asin">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Asin </th>
                                     <td mat-cell *matCellDef="let row"> {{row.id}} </td>
                                 </ng-container>
 
@@ -66,8 +66,9 @@
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
                                     <td mat-cell *matCellDef="let row">
                                         <div class="text-center">
-                                            <button color='warn' (click)="sendAnswer(row)"
-                                                mat-raised-button>Responder</button>
+                                            <button mat-icon-button (click)="sendAnswer(row)" color="warn">
+                                                <mat-icon>send</mat-icon>
+                                            </button>
                                         </div>
                                     </td>
                                 </ng-container>

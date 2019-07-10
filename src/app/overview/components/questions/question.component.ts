@@ -17,7 +17,7 @@ export class QuestionComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   public questions: any[] = [];
-  displayedColumns: string[] = ['id', 'Usuario', 'Producto', 'Pregunta', 'Respuesta', 'Acciones'];
+  displayedColumns: string[] = ['Asin', 'Usuario', 'Producto', 'Pregunta', 'Respuesta', 'Acciones'];
   dataSource = new MatTableDataSource<any>(this.questions);
 
   constructor(
