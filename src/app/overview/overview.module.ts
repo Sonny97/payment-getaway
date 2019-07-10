@@ -23,6 +23,9 @@ import { HttpClientModule } from '@angular/common/http';
   ],
   entryComponents: [
     QuestionComponent
+  ],
+  exports: [
+    QuestionComponent
   ]
 })
 export class OverviewModule { }
