@@ -5,9 +5,10 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-table-list',
+  selector: 'app-questions',
   templateUrl: './question.component.html',
   styleUrls: ['./question.component.css']
 })
@@ -19,24 +20,31 @@ export class QuestionComponent implements OnInit {
   public questions: any[] = [];
   displayedColumns: string[] = ['Asin', 'Usuario', 'Producto', 'Pregunta', 'Respuesta', 'Acciones'];
   dataSource = new MatTableDataSource<any>(this.questions);
+  public path: string;
 
   constructor(
     private questionService: QuestionsService,
     private _snackBar: MatSnackBar,
     public dialog: MatDialog,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    public router: Router
+    /* @Inject(MAT_DIALOG_DATA) public data: any */
   ) { }
 
   ngOnInit() {
-    const res = this.data.res;
-    this.dataSource.paginator = this.paginator;
-    if (Array.isArray(res.result.message)) {
-      this.questions = res.result.message;
-      this.questions.forEach((element => element.answer = ''));
-      this.dataSource.data = this.questions;
-    } else {
-      console.log('Dont is array');
-    }
+    this.path = this.router.url;
+    this.questionService.getAllQuestions().subscribe(
+      res => {
+        this.dataSource.paginator = this.paginator;
+        if (Array.isArray(res.result.message)) {
+          this.questions = res.result.message;
+          this.questions.forEach((element => element.answer = ''));
+          this.dataSource.data = this.questions;
+        } else {
+          console.log('Dont is array');
+        }
+      },
+      err => console.error()
+    )
   }
 
   /**
