@@ -38,6 +38,7 @@ export class IndexComponent implements OnInit {
         if (Array.isArray(res.result.message)) {
           const dialogRef = this.dialog.open(QuestionComponent, {
             width: '1350px',
+            height: '600px',
             data: { res }
           });
         } else {
