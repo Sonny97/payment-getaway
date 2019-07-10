@@ -4,11 +4,11 @@ import { QuestionComponent } from '../questions/question.component';
 import { QuestionsService } from 'app/overview/services/questions.service';
 
 @Component({
-  selector: 'app-index',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.scss']
+  selector: 'app-overview',
+  templateUrl: './overview.component.html',
+  styleUrls: ['./overview.component.scss']
 })
-export class IndexComponent implements OnInit {
+export class OverviewComponent implements OnInit {
   public panelOpenState = false;
   public countQuestions = 0;
   public dataQuestions: any[];
