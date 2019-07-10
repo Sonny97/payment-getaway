@@ -1,3 +1,51 @@
-<p>
-  index works!
-</p>
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="container-fluid">
+                            <mat-tab-group>
+                                <mat-tab>
+                                    <ng-template mat-tab-label>
+                                    Favoritos
+                                    </ng-template>
+                                    <mat-list *ngFor="let item of [1,2,3,4,5,6,7,8,9,10,11,12]">
+                                        <mat-list-item>
+                                            <h5 mat-line> 
+                                                <button class="btn btn-sm">{{ item }}</button>
+                                                Hoy
+                                            </h5>
+                                        </mat-list-item>
+                                    </mat-list>
+                                </mat-tab>
+                                
+                                <mat-tab>
+                                  <ng-template mat-tab-label>
+                                  Preguntas
+                                  </ng-template>
+                                  <app-questions></app-questions>
+                                </mat-tab>
+                                
+                                <mat-tab>
+                                    <ng-template mat-tab-label>
+                                    Compras
+                                    </ng-template>
+                                
+                                    <mat-list *ngFor="let item of [1,2,3,4,5,6,7,8,9,10,11,12]">
+                                        <mat-list-item>
+                                            <h5 mat-line> 
+                                                <button class="btn btn-sm">{{item}}</button>
+                                                Este mes
+                                            </h5>
+                                        </mat-list-item>
+                                    </mat-list>
+                                </mat-tab>
+                            </mat-tab-group>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
