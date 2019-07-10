@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./purchases.component.scss']
 })
 export class PurchasesComponent implements OnInit {
+  public purchases: any[];
+  public favorites: any[];
 
   constructor() { }
 

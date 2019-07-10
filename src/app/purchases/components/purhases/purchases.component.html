@@ -8,9 +8,11 @@
                             <mat-tab-group>
                                 <mat-tab>
                                     <ng-template mat-tab-label>
-                                    Favoritos
+                                        <mat-icon mat-list-icon>favorite</mat-icon> 
+                                        <div class="titles-mat-tap">Favoritos</div>  
                                     </ng-template>
-                                    <mat-list *ngFor="let item of [1,2,3,4,5,6,7,8,9,10,11,12]">
+
+                                    <mat-list *ngFor="let item of favorites">
                                         <mat-list-item>
                                             <h5 mat-line> 
                                                 <button class="btn btn-sm">{{ item }}</button>
@@ -18,21 +20,31 @@
                                             </h5>
                                         </mat-list-item>
                                     </mat-list>
+
+                                    <mat-list *ngIf="!favorites">
+                                        <mat-list-item>
+                                            <mat-icon color='warn' mat-list-icon>error_outline</mat-icon>
+                                            <h5 mat-line>Aun no tienes favoritos</h5>
+                                        </mat-list-item>
+                                    </mat-list>
+
                                 </mat-tab>
                                 
                                 <mat-tab>
                                   <ng-template mat-tab-label>
-                                  Preguntas
+                                        <mat-icon mat-list-icon>question_answer</mat-icon>
+                                        <div class="titles-mat-tap">Preguntas</div> 
                                   </ng-template>
                                   <app-questions></app-questions>
                                 </mat-tab>
                                 
                                 <mat-tab>
                                     <ng-template mat-tab-label>
-                                    Compras
+                                        <mat-icon mat-list-icon>shopping_basket</mat-icon>
+                                        <div class="titles-mat-tap">Compras</div>
                                     </ng-template>
                                 
-                                    <mat-list *ngFor="let item of [1,2,3,4,5,6,7,8,9,10,11,12]">
+                                    <mat-list *ngFor="let item of purchases">
                                         <mat-list-item>
                                             <h5 mat-line> 
                                                 <button class="btn btn-sm">{{item}}</button>
@@ -40,6 +52,14 @@
                                             </h5>
                                         </mat-list-item>
                                     </mat-list>
+
+                                    <mat-list *ngIf="!purchases">
+                                        <mat-list-item>
+                                            <mat-icon color='warn' mat-list-icon>error_outline</mat-icon>
+                                            <h5 mat-line>Aun no tienes compras</h5>
+                                        </mat-list-item>
+                                    </mat-list>
+
                                 </mat-tab>
                             </mat-tab-group>
                         </div>
