@@ -11,6 +11,7 @@ import { ProductsComponent } from 'app/components/products/products.component';
 import { ProductsService } from 'app/services/products.service';
 import { AngularMaterialModule } from 'app/angular-material/angular-material.module';
 import { OverviewModule } from 'app/overview/overview.module';
+import { PurchasesModule } from 'app/purchases/purchases.module';
 
 @NgModule({
   imports: [
@@ -20,7 +21,8 @@ import { OverviewModule } from 'app/overview/overview.module';
     ReactiveFormsModule,
     AngularMaterialModule,
     HttpClientModule,
-    OverviewModule
+    OverviewModule,
+    PurchasesModule
   ],
   declarations: [
     UserProfileComponent,
