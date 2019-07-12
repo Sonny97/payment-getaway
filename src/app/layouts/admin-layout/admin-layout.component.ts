@@ -24,9 +24,11 @@ export class AdminLayoutComponent implements OnInit {
         private userService: UserService) { }
 
     ngOnInit() {
-        const user = this.userService.getUserLoggedIn();
-        if (!user) {
-            this.router.navigateByUrl('/login');
+        const user = this.userService.getUserLoggedIn() == null ? {} : this.userService.getUserLoggedIn();
+        if (Object.keys(user).length === 0) {
+            if (user.tkn === undefined) {
+                this.router.navigateByUrl('/login');
+            }
         }
         const isWindows = navigator.platform.indexOf('Win') > -1 ? true : false;
 

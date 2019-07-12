@@ -24,8 +24,8 @@ export class LoginComponent implements OnInit {
     private _snackBar: MatSnackBar) { }
 
   ngOnInit() {
-    const user = this.userService.getUserLoggedIn();
-    if (user) {
+    const user = this.userService.getUserLoggedIn() == null ? {} : this.userService.getUserLoggedIn();
+    if (user.tkn) {
       this.navigate()
     }
   }
@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
             duration: 5000
           })
         } else {
-          const u: User = { username: username };
+          const u: User = { username: username, tkn: res.result.access_token};
           this.userService.setUserLoggedIn(u),
           this.navigate()
         }
