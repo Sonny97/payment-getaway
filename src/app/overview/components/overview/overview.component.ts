@@ -13,6 +13,9 @@ export class OverviewComponent implements OnInit {
   public countQuestions = 0;
   public dataQuestions: any[];
 
+  // kiero points
+  public valueBar = 0;
+
   constructor(
     private questionService: QuestionsService,
     public dialog: MatDialog
