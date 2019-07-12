@@ -1,3 +1,71 @@
-<p>
-  sales works!
-</p>
+<div class="main-content">
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="card">
+                  <div class="card-body">
+                      <div class="container-fluid">
+                          <mat-tab-group color='warn'>
+                              <mat-tab>
+                                  <ng-template mat-tab-label>
+                                      <mat-icon mat-list-icon>public</mat-icon> 
+                                      <div class="titles-mat-tap">Publicaciones</div>  
+                                  </ng-template>
+
+                                  <mat-list *ngFor="let item of posts">
+                                      <mat-list-item>
+                                          <h5 mat-line> 
+                                              <button class="btn btn-sm">{{ item }}</button>
+                                              Hoy
+                                          </h5>
+                                      </mat-list-item>
+                                  </mat-list>
+
+                                  <mat-list *ngIf="!posts">
+                                      <mat-list-item>
+                                          <mat-icon color='warn' mat-list-icon>error_outline</mat-icon>
+                                          <h5 mat-line>Aun no tienes publicaciones</h5>
+                                      </mat-list-item>
+                                  </mat-list>
+
+                              </mat-tab>
+                              
+                              <mat-tab>
+                                <ng-template mat-tab-label>
+                                      <mat-icon mat-list-icon>question_answer</mat-icon>
+                                      <div class="titles-mat-tap">Preguntas</div> 
+                                </ng-template>
+                                <app-questions></app-questions>
+                              </mat-tab>
+                              
+                              <mat-tab>
+                                  <ng-template mat-tab-label>
+                                      <mat-icon mat-list-icon>store</mat-icon>
+                                      <div class="titles-mat-tap">Ventas</div>
+                                  </ng-template>
+                              
+                                  <mat-list *ngFor="let item of sales">
+                                      <mat-list-item>
+                                          <h5 mat-line> 
+                                              <button class="btn btn-sm">{{item}}</button>
+                                              Este mes
+                                          </h5>
+                                      </mat-list-item>
+                                  </mat-list>
+
+                                  <mat-list *ngIf="!sales">
+                                      <mat-list-item>
+                                          <mat-icon color='warn' mat-list-icon>error_outline</mat-icon>
+                                          <h5 mat-line>Aun no tienes ventas</h5>
+                                      </mat-list-item>
+                                  </mat-list>
+
+                              </mat-tab>
+                          </mat-tab-group>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
