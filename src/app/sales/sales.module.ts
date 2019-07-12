@@ -1,11 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SalesComponent } from './components/sales/sales.component';
+import { AngularMaterialModule } from 'app/angular-material/angular-material.module';
+import { OverviewModule } from 'app/overview/overview.module';
 
 @NgModule({
   declarations: [SalesComponent],
   imports: [
-    CommonModule
+    CommonModule,
+    AngularMaterialModule,
+    OverviewModule
   ]
 })
 export class SalesModule { }
