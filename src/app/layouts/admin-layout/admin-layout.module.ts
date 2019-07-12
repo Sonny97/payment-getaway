@@ -12,6 +12,7 @@ import { ProductsService } from 'app/services/products.service';
 import { AngularMaterialModule } from 'app/angular-material/angular-material.module';
 import { OverviewModule } from 'app/overview/overview.module';
 import { PurchasesModule } from 'app/purchases/purchases.module';
+import { SalesModule } from 'app/sales/sales.module';
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import { PurchasesModule } from 'app/purchases/purchases.module';
     AngularMaterialModule,
     HttpClientModule,
     OverviewModule,
-    PurchasesModule
+    PurchasesModule,
+    SalesModule
   ],
   declarations: [
     UserProfileComponent,

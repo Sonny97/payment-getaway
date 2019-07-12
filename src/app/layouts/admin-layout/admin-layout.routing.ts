@@ -5,6 +5,7 @@ import { NotificationsComponent } from '../../components/notifications/notificat
 import { ProductsComponent } from 'app/components/products/products.component';
 import { OverviewComponent } from 'app/overview/components/overview/overview.component';
 import { PurchasesComponent } from 'app/purchases/components/purhases/purchases.component';
+import { SalesComponent } from 'app/sales/components/sales/sales.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'user-profile',   component: UserProfileComponent },
@@ -24,6 +25,14 @@ export const AdminLayoutRoutes: Routes = [
         children: [{
             path: 'purchases',
             loadChildren: () => import('../../overview/overview.module').then(m => m.OverviewModule)
+        }],
+    },
+    {
+        path: 'sales',
+        component: SalesComponent,
+        children: [{
+            path: 'sales',
+            loadChildren: () => import('../../sales/sales.module').then(m => m.SalesModule)
         }],
     },
 ];
