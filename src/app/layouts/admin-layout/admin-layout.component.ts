@@ -82,7 +82,8 @@ export class AdminLayoutComponent implements OnInit {
         }
 
         $('.fixed-plugin a').click(function (event) {
-            // Alex if we click on switch, stop propagation of the event, so the dropdown will not be hide, otherwise we set the  section active
+            // Alex if we click on switch, stop propagation of the event,
+            // so the dropdown will not be hide, otherwise we set the  section active
             if ($(this).hasClass('switch-trigger')) {
                 if (event.stopPropagation) {
                     event.stopPropagation();
@@ -99,7 +100,7 @@ export class AdminLayoutComponent implements OnInit {
             $(this).siblings().removeClass('active');
             $(this).addClass('active');
 
-            var new_color = $(this).data('color');
+            const new_color = $(this).data('color');
 
             if ($sidebar.length !== 0) {
                 $sidebar.attr('data-color', new_color);
@@ -117,7 +118,7 @@ export class AdminLayoutComponent implements OnInit {
             $(this).parent('li').addClass('active');
 
 
-            var new_image = $(this).find('img').attr('src');
+            const new_image = $(this).find('img').attr('src');
 
             if ($sidebar_img_container.length != 0) {
                 $sidebar_img_container.fadeOut('fast', function () {
@@ -134,7 +135,7 @@ export class AdminLayoutComponent implements OnInit {
                 });
             }
 
-            if ($sidebar_responsive.length != 0) {
+            if ($sidebar_responsive.length !== 0) {
                 $sidebar_responsive.css('background-image', 'url("' + new_image + '")');
             }
         });
@@ -143,7 +144,7 @@ export class AdminLayoutComponent implements OnInit {
         this.runOnRouteChange();
     }
     isMaps(path) {
-        var titlee = this.location.prepareExternalUrl(this.location.path());
+        let titlee = this.location.prepareExternalUrl(this.location.path());
         titlee = titlee.slice(1);
         if (path == titlee) {
             return false;
