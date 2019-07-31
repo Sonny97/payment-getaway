@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+
 
 @Component({
   selector: 'app-sales',
@@ -8,10 +9,10 @@ import { Component, OnInit } from '@angular/core';
 export class SalesComponent implements OnInit {
   public sales: any[];
   public posts: any[];
+   
+  constructor( ) {  }
 
-  constructor() { }
+  ngOnInit() {}
 
-  ngOnInit() {
-  }
-
+  
 }

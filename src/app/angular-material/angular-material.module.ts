@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import {
   MatAutocompleteModule,
@@ -76,6 +78,9 @@ import {
     MatToolbarModule,
     MatTooltipModule,
     MatTreeModule,
+    NgbModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [
     MatAutocompleteModule,
@@ -113,6 +118,8 @@ import {
     MatToolbarModule,
     MatTooltipModule,
     MatTreeModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class AngularMaterialModule { }
