@@ -1,55 +1,5 @@
 <div class="container">
 
-  <div class="row">
-    <div class="col-sm-3">
-        <a href="#/sales" (click)="productCrear('Vehiculos',1)">
-          <div class="card text-center border-info">
-            <div class="card-body">
-              <h5 class="card-title">Vehículo</h5>
-            
-            </div>
-          </div>
-        </a>        
-    </div>
-    
-    <div class="col-sm-3">
-        <a href="#/sales" (click)="productCrear('Inmuebles',2)">
-          <div class="card text-center border-info" >
-            <div class="card-body">
-              <h5 class="card-title">Inmuebles</h5>
-                        
-            </div>
-          </div>
-        </a>        
-    </div>
-    <div class="col-sm-3">
-        <a href="#/sales" (click)="productCrear('Servicos',3)">
-          <div class="card text-center border-info " >
-            <div class="container-fluid"> 
-              <div class="card-body">
-                <h5 class="card-title">Servicios</h5> 
-                
-              
-              </div>
-            </div>
-          </div>
-        </a>        
-    </div>
-    
-    <div class="col-sm-3">
-        <a href="#/sales" (click)="productCrear('Productos y otros',4)">
-          <div class="card text-center border-info " >
-            <div class="card-body">
-              <h5 class="card-title">Productos y otros</h5>
-              
-            
-            </div>
-          </div>
-        </a>        
-    </div>
-  </div>
-</div>
-<div *ngIf="catergory">
   <mat-vertical-stepper [linear]="isLinear" #stepper>
       <mat-step [stepControl]="productType">
       <form [formGroup]="productType">
@@ -57,16 +7,25 @@
           <mat-form-field>
           
           <mat-form-field appearance="outline" style="width: 100%  !important;">
-              <mat-label>Producto</mat-label>
-              <mat-select formControlName="firstCtrl" [(ngModel)]="vehiculoObjet.vehiculo" required>
-                  <mat-option *ngFor="let item of _productType" [value]="vehiculo">
-                      {{item}}
-                  </mat-option>
-              </mat-select>
+            <mat-label>Producto</mat-label>
+              
+
+            <input type="text" matInput [formControl]="control" formControlName="firstCtrl" placeholder="States Group"  [matAutocomplete]="auto" [(ngModel)]="options.name" required>
+
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"  >
+              <mat-option *ngFor="let option of filter  | async"  [value]="option" required>
+                {{option.name}}
+              </mat-option>
+            </mat-autocomplete>
           </mat-form-field>
+
+
+          
+
+
           </mat-form-field>
           <div>
-          <button mat-button matStepperNext>Next</button>
+          <button mat-button matStepperNext>Continuar</button>
           </div>
       </form>
       </mat-step>
@@ -93,5 +52,3 @@
       </div>
       </mat-step>
   </mat-vertical-stepper>
-</div>
-      

@@ -13,7 +13,7 @@ import { PublicationComponent } from './components/publication/publication.compo
     OverviewModule
   ],
   entryComponents:[
-    
+
   ]
 
 })
