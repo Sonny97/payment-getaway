@@ -5,15 +5,15 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class ProductsService {
+export class PublicCategoryserviceService {
 
   constructor(private http: HttpClient) { }
 
   /**
-   * getProduct
+   * Request of plublic Categories
    */
-  public getProduct(id): Observable<any> {
-    return this.http.get<any>(`http://10.4.28.9:4446/Producto/info?id=${id}`);
-  }
-  
+  public getPublicCategory():Observable<any>{
+    return this.http.get<any>(`http://127.0.0.1:54600/router_planesCategory`)
+  } 
+
 }

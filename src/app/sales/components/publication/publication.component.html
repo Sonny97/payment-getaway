@@ -1,47 +1,44 @@
 <div class="container">
-
   <mat-vertical-stepper [linear]="isLinear" #stepper>
-      <mat-step [stepControl]="productType">
-      <form [formGroup]="productType">
+      <mat-step [stepControl]="parentProductType">
+        <form [formGroup]="parentProductType">
           <ng-template matStepLabel>{{publicacion}}</ng-template>
-          <mat-form-field>
-          
-          <mat-form-field appearance="outline" style="width: 100%  !important;">
-            <mat-label>Producto</mat-label>
-              
-
-            <input type="text" matInput [formControl]="control" formControlName="firstCtrl" placeholder="States Group"  [matAutocomplete]="auto" [(ngModel)]="options.name" required>
-
-            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"  >
-              <mat-option *ngFor="let option of filter  | async"  [value]="option" required>
-                {{option.name}}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-
-
-          
-
-
+          <mat-form-field>          
+              <mat-form-field appearance="outline" style="width: 100%  !important;">
+                  <mat-label>Selecciona una categoria</mat-label>
+                  <input type="text" matInput   formControlName="firstControl" placeholder="Categoria"  [matAutocomplete]="first" required>
+                  <mat-autocomplete #first="matAutocomplete" (optionSelected)="filter_child()">
+                    <mat-option *ngFor="let item of parentFilter  | async"  [value]="item.name" required>
+                      {{item.name}}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
           </mat-form-field>
           <div>
-          <button mat-button matStepperNext>Continuar</button>
+            <button mat-button matStepperNext>Continuar</button>
           </div>
-      </form>
-      </mat-step>
-      <mat-step [stepControl]="secondFormGroup">
-      <form [formGroup]="secondFormGroup">
-          <ng-template matStepLabel>Fill out your address</ng-template>
-          <mat-form-field>
-          <input matInput placeholder="Address" formControlName="secondCtrl" required>
-          </mat-form-field>
-          <div>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
-          </div>
-      </form>
+        </form>
       </mat-step>
 
+      <mat-step [stepControl]="childProductType" >
+        <form [formGroup]="childProductType">
+            <mat-form-field>          
+              <mat-form-field appearance="outline" style="width: 100%  !important;">
+                <mat-label>Selecciona una categoria</mat-label>
+                <input type="text" matInput   formControlName="secondControl" placeholder="Categoria"  [matAutocomplete]="second" required>
+                <mat-autocomplete #second="matAutocomplete">
+                  <mat-option *ngFor="let item of secondFilter  | async"  [value]="item.name" required>
+                    <a>{{item.name}}</a>
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </mat-form-field>
+              <div>
+                <button mat-button matStepperPrevious>Regresar</button>
+                <button mat-button matStepperNext>Continuar</button>
+              </div>
+          </form>
+      </mat-step>
 
       <mat-step>
       <ng-template matStepLabel>Done</ng-template>
@@ -52,3 +49,4 @@
       </div>
       </mat-step>
   </mat-vertical-stepper>
+</div>
