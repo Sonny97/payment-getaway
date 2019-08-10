@@ -1,32 +1,62 @@
 <div class="container">
-  <mat-vertical-stepper [linear]="isLinear" #stepper>
-      <mat-step [stepControl]="parentProductType">
+  <div class="row">
+    <div class="col-sm-6">
+      <mat-form-field appearance="legacy" style="width: 50%">
+        <mat-label>Titulo  Producto </mat-label>
+          <input matInput placeholder="Titulo" [(ngModel)]="product.name" #validatename="ngModel" required>
+          <mat-icon class="mat-icon_product" matSuffix>content_paste</mat-icon>
+        <mat-hint>Ingrese el nombre que quieres para tu producto.</mat-hint>      
+      </mat-form-field>
+    </div>
+    <div class="col-sm-6">
+      <button  mat-raised-button  class="btn btn-info" (click)="filter_parent()" >Continuar</button>
+    </div>    
+  </div>
+  <div *ngIf="validatename.invalid && (validatename.dirty || validatename.touched)" style="width: 50%" class="alert alert-danger">      
+      <div *ngIf="validatename.errors.required">
+          <mat-icon matSuffix>mood_bad</mat-icon>
+          Este campo es obligatorio
+      </div>     
+  </div>
+  <div *ngIf="product_name_input" class="alert alert-warning">
+      <mat-icon matSuffix>mood_bad</mat-icon>
+      Para continuar completa el campo "Titulo del producto".
+  </div>
+  
+  <!--
+    Categorizare producto
+  -->
+  <br>
+  <mat-vertical-stepper  [linear]="isLinear" >
+      <mat-step *ngIf="existingCategory_input0">
         <form [formGroup]="parentProductType">
-          <ng-template matStepLabel>{{publicacion}}</ng-template>
+          <ng-template matStepLabel>Categoriza tu producto</ng-template>
           <mat-form-field>          
               <mat-form-field appearance="outline" style="width: 100%  !important;">
                   <mat-label>Selecciona una categoria</mat-label>
-                  <input type="text" matInput   formControlName="firstControl" placeholder="Categoria"  [matAutocomplete]="first" required>
-                  <mat-autocomplete #first="matAutocomplete" (optionSelected)="filter_child()">
+                  <input type="text" matInput   formControlName="firstControl" placeholder="Categoria" (click)="filter_parent(null)" [matAutocomplete]="first" required>
+                  <mat-autocomplete #first="matAutocomplete" (optionSelected)="filter_child_1()">
                     <mat-option *ngFor="let item of parentFilter  | async"  [value]="item.name" required>
                       {{item.name}}
                     </mat-option>
                   </mat-autocomplete>
                 </mat-form-field>
           </mat-form-field>
-          <div>
-            <button mat-button matStepperNext>Continuar</button>
+          <div>            
+            <button  mat-raised-button  class="btn btn-info" matStepperNext (click)="filter_child_1()" >Continuar</button>
           </div>
         </form>
       </mat-step>
-
-      <mat-step [stepControl]="childProductType" >
-        <form [formGroup]="childProductType">
+      <!--
+       Comienza el filtro y canpos para el hijo 0
+      -->
+      <mat-step [stepControl]="childProductType"  #child_1 *ngIf="existingCategory_input1">
+        <form [formGroup]="childProductType" >
             <mat-form-field>          
               <mat-form-field appearance="outline" style="width: 100%  !important;">
-                <mat-label>Selecciona una categoria</mat-label>
-                <input type="text" matInput   formControlName="secondControl" placeholder="Categoria"  [matAutocomplete]="second" required>
-                <mat-autocomplete #second="matAutocomplete">
+                <mat-label>Selecciona</mat-label>
+                <input type="text" matInput id="second" value=""  formControlName="secondControl" placeholder="Categoria" name="filter_child" [matAutocomplete]="second" required>
+                <mat-autocomplete #second="matAutocomplete" (optionSelected)="filter_child_2()">
                   <mat-option *ngFor="let item of secondFilter  | async"  [value]="item.name" required>
                     <a>{{item.name}}</a>
                   </mat-option>
@@ -34,19 +64,364 @@
               </mat-form-field>
             </mat-form-field>
               <div>
-                <button mat-button matStepperPrevious>Regresar</button>
-                <button mat-button matStepperNext>Continuar</button>
+                <button mat-raised-button  class="btn btn-warning" matStepperPrevious (click)="child_1.reset()" (click)="filter_parent()">Regresar</button>
+                <button mat-raised-button  class="btn btn-info" matStepperNext (click)="filter_child_2()">Continuar</button>
               </div>
           </form>
       </mat-step>
+      <!--
+       Comienza el filtro y canpos para el hijo 1
+      -->
+      <mat-step [stepControl]="childProductType_2" *ngIf="existingCategory_input2" >
+        <form [formGroup]="childProductType_2" #child_2>
+          <mat-form-field>          
+            <mat-form-field appearance="outline" style="width: 100%  !important;">
+              <mat-label>Selecciona</mat-label>
+              <input type="text" matInput   formControlName="thirdControl"  placeholder="Categoria"  [matAutocomplete]="third" required>
+              <mat-autocomplete #third="matAutocomplete" (optionSelected)="filter_child_3()">
+                <mat-option *ngFor="let item of thirdFilter  | async"  [value]="item.name" required>
+                  <a>{{item.name}}</a>
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </mat-form-field>
+            <div>
+              <button mat-raised-button  class="btn btn-warning" matStepperPrevious (click)="child_2.reset()" (click)="filter_child_1()">Regresar</button>
+              <button mat-raised-button  class="btn btn-info" matStepperNext (click)="filter_child_3()">Continuar</button>
+            </div>
+        </form>
+      </mat-step>
+      <!--
+       Comienza el filtro y canpos para el hijo 2
+      -->
+      <mat-step [stepControl]="childProductType_3" *ngIf="existingCategory_input3">
+        <form [formGroup]="childProductType_3" #child_3>
+          <mat-form-field>          
+            <mat-form-field appearance="outline" style="width: 100%  !important;">
+              <mat-label>Selecciona</mat-label>
+              <input type="text" matInput   formControlName="quarterControl" placeholder="Categoria"  [matAutocomplete]="quarter" required>
+              <mat-autocomplete #quarter="matAutocomplete" (optionSelected)="filter_child_4()" >
+                <mat-option *ngFor="let item of quarterFilter  | async"  [value]="item.name" required>
+                  <a>{{item.name}}</a>
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </mat-form-field>
+            <div>
+                <button mat-raised-button  class="btn btn-warning" matStepperPrevious (click)="child_3.reset()" (click)="filter_child_2()">Regresar</button>
+                <button mat-raised-button  class="btn btn-info" matStepperNext (click)="filter_child_4()">Continuar</button>
+            </div>
+        </form>
+      </mat-step>
+      <!--
+       Comienza el filtro y canpos para el hijo 3
+      -->
+      <mat-step [stepControl]="childProductType_4" *ngIf="existingCategory_input4">
+        <form [formGroup]="childProductType_4" #child_4>
+          <mat-form-field>          
+            <mat-form-field appearance="outline" style="width: 100%  !important;">
+              <mat-label>Selecciona</mat-label>
+              <input type="text" matInput   formControlName="fifthControl" placeholder="Categoria"  [matAutocomplete]="fifth" required>
+              <mat-autocomplete #fifth="matAutocomplete" (optionSelected)= "filter_child_5()">
+                <mat-option *ngFor="let item of fifthFilter  | async"  [value]="item.name" required>
+                  <a>{{item.name}}</a>
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </mat-form-field>
+            <div>
+                <button mat-raised-button  class="btn btn-warning" matStepperPrevious (click)="child_4.reset()" (click)="filter_child_3()">Regresar</button>
+                <button mat-raised-button  class="btn btn-info" matStepperNext (click)="filter_child_5()">Continuar</button>
+            </div>
+        </form>
+      </mat-step>
+      <!--
+       Comienza el filtro y canpos para el hijo 4
+      -->
+      <mat-step [stepControl]="childProductType_5" *ngIf="existingCategory_input5">
+        <form [formGroup]="childProductType_5" #child_5>
+          <mat-form-field>          
+            <mat-form-field appearance="outline" style="width: 100%  !important;">
+              <mat-label>Selecciona</mat-label>
+              <input type="text" matInput   formControlName="sixthControl" placeholder="Categoria"  [matAutocomplete]="sixth" required>
+              <mat-autocomplete #sixth="matAutocomplete" (optionSelected) = "filter_child_6()">
+                <mat-option *ngFor="let item of sixthFilter  | async"  [value]="item.name" required>
+                  <a>{{item.name}}</a>
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </mat-form-field>
+            <div>
+                <button mat-raised-button  class="btn btn-warning" matStepperPrevious (click)="child_5.reset()" (click)="filter_child_4()">Regresar</button>
+                <button mat-raised-button  class="btn btn-info" matStepperNext (click)="filter_child_6()">Continuar</button>
+            </div>
+        </form>
+      </mat-step>
+      <!--
+       Comienza el filtro y canpos para el hijo 5
+      -->
+      <mat-step [stepControl]="childProductType_6" *ngIf="existingCategory_input6">
+        <form [formGroup]="childProductType_6" #child_6>
+          <mat-form-field>          
+            <mat-form-field appearance="outline" style="width: 100%  !important;">
+              <mat-label>Selecciona</mat-label>
+              <input type="text" matInput   formControlName="seventhControl" placeholder="Categoria"  [matAutocomplete]="seventh" required>
+              <mat-autocomplete #seventh="matAutocomplete" >
+                <mat-option *ngFor="let item of seventhFilter  | async"  [value]="item.name" required>
+                  <a>{{item.name}}</a>
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </mat-form-field>
+            <div>
+                <button mat-raised-button  class="btn btn-warning" matStepperPrevious (click)="child_6.reset()" (click)="filter_child_5()">Regresar</button>
+                <button mat-raised-button  class="btn btn-info" matStepperNext>Continuar</button>
+            </div>
+        </form>
+      </mat-step>
 
-      <mat-step>
-      <ng-template matStepLabel>Done</ng-template>
-      You are now done.
+      <mat-step *ngIf="btn_category_save"> 
+      <ng-template matStepLabel>Categoria completa</ng-template>
+        Listo !
       <div>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button (click)="stepper.reset()">Reset</button>
+          <button mat-raised-button  class="btn btn-success" matStepperNext>Continuar</button>
       </div>
       </mat-step>
   </mat-vertical-stepper>
+
+
+
+<!--
+  Formulario para el producto
+-->
+
+<mat-list-item>Espesifica el producto</mat-list-item>
+<mat-divider></mat-divider>
+<br>
+  <div class="row">
+    <div class="col-sm-6">
+      <!-- input : Nombre o titulo de producto -->
+      <mat-form-field appearance="legacy" style="width: 100%">
+        <mat-label>Titulo  Producto </mat-label>
+          <input matInput placeholder="Titulo" [(ngModel)]="product.name" #validatename="ngModel" required>
+          <mat-icon class="mat-icon_name_product" matSuffix>content_paste</mat-icon>
+        <mat-hint>Ingrese el nombre que quieres para tu producto.</mat-hint>      
+      </mat-form-field>
+    </div>
+
+    <div class="col-sm-6">
+      <!-- input : Ingresa el SKU -->
+      <mat-form-field appearance="legacy" style="width: 100%"  matTooltip="Referencia de Almacén">
+        <mat-label>SKU</mat-label>
+          <input matInput placeholder="SKU" >
+          <mat-icon class="mat-icon_name_product" matSuffix>content_paste</mat-icon>
+        <mat-hint>código único que se asigna a un producto para identificarlo.</mat-hint>      
+      </mat-form-field>
+      <br>
+    </div>
+
+    <div class="col-sm-12">
+      <!-- textArea : descripcion de producto -->
+      <mat-form-field appearance="legacy" style="width: 100%">
+        <mat-label>descripción para el Producto </mat-label>
+          <textarea matInput placeholder="Descripcion" ></textarea>
+          <mat-icon class="mat-icon_name_product" matSuffix>content_paste</mat-icon>
+        <mat-hint>Describa el producto.</mat-hint>      
+      </mat-form-field>      
+    </div>
+  </div>
+
+
+
+<br>
+<mat-list-item>Ingresa imagenes para el producto</mat-list-item>
+<mat-divider></mat-divider>
+  <br>
+  <div class="row">    
+     
+  </div><br>
+
+<mat-list-item>Caracteriesticas del el producto</mat-list-item>
+<mat-divider></mat-divider>
+<br>
+
+  <div *ngIf = "!largo; else resive">
+    <div class="container">     
+        <form [formGroup] = "formulario" (ngSubmit)= "add(formulario.value)">
+            <div class="row">
+              <div class="col-sm-4">
+                <mat-form-field appearance="legacy" style="width: 100%" >
+                  <mat-label>Largo</mat-label>
+                    <input matInput placeholder="Largo" formControlName="largo" [(ngModel)]="product.largo" autocomplete="off">
+                    <mat-hint>Ingresa el largo en unidad de metros( M ).</mat-hint>
+                    <mat-icon *ngIf="!formulario.controls.largo.errors"class="formIsGood" matSuffix>done</mat-icon>  
+                    <mat-icon *ngIf="formulario.controls.largo.errors" class="formIsBad" matSuffix>close</mat-icon>   
+                </mat-form-field>
+              </div>
+              <div *ngIf="formulario.controls.largo.errors">
+                  <div *ngIf="formulario.controls.largo.errors.pattern">
+                      <div class="alert alert-danger" role="alert"><strong>{{product.largo}}</strong>, No asignes letras ni caracteres 
+                        <mat-icon matSuffix>mood_bad</mat-icon> </div>    
+                  </div>
+              </div>
+
+              <div class="col-sm-4">
+                <mat-form-field appearance="legacy" style="width: 100%" >
+                  <mat-label>Alto</mat-label>
+                    <input matInput placeholder="Alto" formControlName="alto" [(ngModel)]="product.alto" autocomplete="off">
+                    <mat-hint>Ingresa el alto en unidad de metros( M ).</mat-hint>
+                    <mat-icon *ngIf="!formulario.controls.alto.errors"class="formIsGood" matSuffix>done</mat-icon>  
+                    <mat-icon *ngIf="formulario.controls.alto.errors" class="formIsBad" matSuffix>close</mat-icon>   
+                </mat-form-field>
+              </div>
+              <div *ngIf="formulario.controls.alto.errors">
+                  <div *ngIf="formulario.controls.alto.errors.pattern">
+                      <div class="alert alert-danger" role="alert"><strong>{{product.alto}}</strong>, No asignes letras ni caracteres 
+                        <mat-icon matSuffix>mood_bad</mat-icon> </div>    
+                  </div>
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-sm-4">
+                <mat-form-field appearance="legacy" style="width: 100%" >
+                  <mat-label>Ancho</mat-label>
+                    <input matInput placeholder="Ancho" formControlName="ancho" [(ngModel)]="product.ancho" autocomplete="off">
+                    <mat-hint>Ingresa el Ancho en unidad de metros( M ).</mat-hint>
+                    <mat-icon *ngIf="!formulario.controls.ancho.errors"class="formIsGood" matSuffix>done</mat-icon>  
+                    <mat-icon *ngIf="formulario.controls.ancho.errors" class="formIsBad" matSuffix>close</mat-icon>   
+                </mat-form-field>
+              </div>
+              <div *ngIf="formulario.controls.ancho.errors">
+                  <div *ngIf="formulario.controls.ancho.errors.pattern">
+                      <div class="alert alert-danger" role="alert"><strong>{{product.ancho}}</strong>, No asignes letras ni caracteres 
+                        <mat-icon matSuffix>mood_bad</mat-icon> </div>    
+                  </div>
+              </div>
+              <div class="col-sm-4">
+                <mat-form-field appearance="legacy" style="width: 100%" >
+                  <mat-label>Peso</mat-label>
+                    <input matInput placeholder="Peso" maxlength="6" formControlName="peso" [(ngModel)]="product.peso" autocomplete="off">
+                    <mat-hint>Ingresa el Peso en unidad de libreas( Lb ).</mat-hint>
+                    <mat-icon *ngIf="!formulario.controls.peso.errors"class="formIsGood" matSuffix>done</mat-icon>  
+                    <mat-icon *ngIf="formulario.controls.peso.errors" class="formIsBad" matSuffix>close</mat-icon>   
+                </mat-form-field>
+              </div>
+              <div *ngIf="formulario.controls.peso.errors">
+                  <div *ngIf="formulario.controls.peso.errors.pattern">
+                      <div class="alert alert-danger" role="alert"><strong>{{product.peso}}</strong>, No asignes letras ni caracteres 
+                        <mat-icon matSuffix>mood_bad</mat-icon> </div>    
+                  </div>
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-sm-4">
+                <mat-form-field appearance="legacy" style="width: 100%" >
+                  <mat-label>Talla</mat-label>
+                    <input matInput placeholder="Talla" maxlength="6" formControlName="talla" [(ngModel)]="product.talla" autocomplete="off">
+                    <mat-hint></mat-hint>
+                </mat-form-field>
+              </div> 
+              <div class="col-sm-4">
+                <mat-form-field appearance="legacy" style="width: 100%" >
+                  <mat-label>Color</mat-label>
+                    <input matInput placeholder="Color" maxlength="6" formControlName="color" [(ngModel)]="product.color" autocomplete="off">
+                    <mat-hint>Ingresa el Color.</mat-hint>
+                    <mat-icon *ngIf="!formulario.controls.color.errors"class="formIsGood" matSuffix>done</mat-icon>  
+                    <mat-icon *ngIf="formulario.controls.color.errors" class="formIsBad" matSuffix>close</mat-icon>   
+                </mat-form-field>
+              </div>
+              <div *ngIf="formulario.controls.color.errors">
+                  <div *ngIf="formulario.controls.color.errors.pattern">
+                      <div class="alert alert-danger" role="alert"><strong>{{product.color}}</strong>, No asignes numeros ni caracteres 
+                        <mat-icon matSuffix>mood_bad</mat-icon> </div>    
+                  </div>
+              </div> 
+            </div>           
+            
+          
+
+              
+              
+
+              <!--div class="col-sm-4">
+                <mat-form-field appearance="legacy" style="width: 100%">
+                  <mat-label>Ancho</mat-label>
+                    <input matInput placeholder="Ancho" >
+                    <mat-icon class="mat-icon_name_product" matSuffix>content_paste</mat-icon>
+                </mat-form-field>
+              </div>
+
+              <div class="col-sm-4">
+                <mat-form-field appearance="legacy" style="width: 100%" >
+                  <mat-label>Color</mat-label>
+                    <input matInput placeholder="Color" >
+                    <mat-icon class="mat-icon_name_product" matSuffix>content_paste</mat-icon>        
+                </mat-form-field>
+                <br>
+              </div>
+              
+              <div class="col-sm-4">
+              
+                <mat-form-field appearance="legacy" style="width: 100%"  >
+                  <mat-label>Talla</mat-label>
+                    <input matInput placeholder="Talla" >
+                    <mat-icon class="mat-icon_name_product" matSuffix>content_paste</mat-icon>        
+                </mat-form-field>
+                <br>
+              </div>
+              
+              <div class="col-sm-4">
+                <mat-form-field appearance="legacy" style="width: 100%" >
+                  <mat-label>Precio</mat-label>
+                    <input matInput placeholder="Precio" >
+                    <mat-icon class="mat-icon_name_product" matSuffix>attach_money</mat-icon>
+                </mat-form-field>
+                <br>
+              </div>
+              
+              <div class="col-sm-4">
+                <mat-form-field appearance="legacy" style="width: 100%" >
+                  <mat-label>Descuento</mat-label>
+                    <input matInput placeholder="Descuento" >
+                    <mat-icon class="mat-icon_name_product" matSuffix>attach_money</mat-icon>              
+                </mat-form-field>
+                <br>
+              </div>
+              <div class="col-sm-8">
+                <button class="btn btn-block btn-success" (click)="saveProduct()"> Crear producto </button>
+              </div -->
+           
+          
+        </form> 
+      </div>
+  </div>
 </div>
+
+
+
+
+  <!-- div *ngIf="validatename.invalid && (validatename.dirty || validatename.touched)" style="width: 50%" class="alert alert-danger">      
+      <div *ngIf="validatename.errors.required">
+          <mat-icon matSuffix>mood_bad</mat-icon>
+          Este campo es obligatorio
+      </div>     
+  </div>
+  <div *ngIf="product_name_input" class="alert alert-warning">
+      <mat-icon matSuffix>mood_bad</mat-icon>
+      Para continuar completa el campo "Titulo del producto".
+  </div -->
+  
+
+
+
+
+
+
+
+
+
+<!--
+  (click)="child_1.reset()"
+-->
