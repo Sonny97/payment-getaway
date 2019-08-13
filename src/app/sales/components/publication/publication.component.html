@@ -1,18 +1,20 @@
 <div class="container">
+ 
   <div class="row">
     <div class="col-sm-6">
       <mat-form-field appearance="legacy" style="width: 50%">
         <mat-label>Titulo  Producto </mat-label>
-          <input matInput placeholder="Titulo" [(ngModel)]="product.name" #validatename="ngModel" required>
-          <mat-icon class="mat-icon_product" matSuffix>content_paste</mat-icon>
-        <mat-hint>Ingrese el nombre que quieres para tu producto.</mat-hint>      
+          <input matInput placeholder="Titulo" [(ngModel)]="product.Titulo" #validatename="ngModel" required>
+          <mat-icon *ngIf="product_titulo_input"class="formIsBad" matSuffix>close</mat-icon> 
+          <mat-icon class="mat-icon_name_product" class="formIsBad" matSuffix>content_paste</mat-icon>  
+        <mat-hint>Ingrese el nombre que quieres para tu producto.</mat-hint>   
       </mat-form-field>
     </div>
     <div class="col-sm-6">
-      <button  mat-raised-button  class="btn btn-info" (click)="filter_parent()" >Continuar</button>
+      <button  mat-raised-button  class="btn btn-info"  (click)="filter_parent()" >Continuar</button>
     </div>    
   </div>
-  <div *ngIf="validatename.invalid && (validatename.dirty || validatename.touched)" style="width: 50%" class="alert alert-danger">      
+  <div *ngIf="validatename.invalid && (validatename.dirty || validatename.touched || product_titulo_input)" style="width: 50%" class="alert alert-danger">      
       <div *ngIf="validatename.errors.required">
           <mat-icon matSuffix>mood_bad</mat-icon>
           Este campo es obligatorio
@@ -22,12 +24,12 @@
       <mat-icon matSuffix>mood_bad</mat-icon>
       Para continuar completa el campo "Titulo del producto".
   </div>
-  
+    
   <!--
     Categorizare producto
   -->
   <br>
-  <mat-vertical-stepper  [linear]="isLinear" >
+  <mat-vertical-stepper  id="filters" [linear]="isLinear" >
       <mat-step *ngIf="existingCategory_input0">
         <form [formGroup]="parentProductType">
           <ng-template matStepLabel>Categoriza tu producto</ng-template>
@@ -184,7 +186,7 @@
       <ng-template matStepLabel>Categoria completa</ng-template>
         Listo !
       <div>
-          <button mat-raised-button  class="btn btn-success" matStepperNext>Continuar</button>
+          <button mat-raised-button  class="btn btn-success" (click)="saveProduct(1)" matStepperNext>Continuar</button>
       </div>
       </mat-step>
   </mat-vertical-stepper>
@@ -195,209 +197,230 @@
   Formulario para el producto
 -->
 
-<mat-list-item>Espesifica el producto</mat-list-item>
-<mat-divider></mat-divider>
-<br>
-  <div class="row">
-    <div class="col-sm-6">
-      <!-- input : Nombre o titulo de producto -->
-      <mat-form-field appearance="legacy" style="width: 100%">
-        <mat-label>Titulo  Producto </mat-label>
-          <input matInput placeholder="Titulo" [(ngModel)]="product.name" #validatename="ngModel" required>
-          <mat-icon class="mat-icon_name_product" matSuffix>content_paste</mat-icon>
-        <mat-hint>Ingrese el nombre que quieres para tu producto.</mat-hint>      
-      </mat-form-field>
-    </div>
 
-    <div class="col-sm-6">
-      <!-- input : Ingresa el SKU -->
-      <mat-form-field appearance="legacy" style="width: 100%"  matTooltip="Referencia de Almacén">
-        <mat-label>SKU</mat-label>
-          <input matInput placeholder="SKU" >
-          <mat-icon class="mat-icon_name_product" matSuffix>content_paste</mat-icon>
-        <mat-hint>código único que se asigna a un producto para identificarlo.</mat-hint>      
-      </mat-form-field>
-      <br>
-    </div>
-
-    <div class="col-sm-12">
-      <!-- textArea : descripcion de producto -->
-      <mat-form-field appearance="legacy" style="width: 100%">
-        <mat-label>descripción para el Producto </mat-label>
-          <textarea matInput placeholder="Descripcion" ></textarea>
-          <mat-icon class="mat-icon_name_product" matSuffix>content_paste</mat-icon>
-        <mat-hint>Describa el producto.</mat-hint>      
-      </mat-form-field>      
-    </div>
-  </div>
-
-
-
-<br>
-<mat-list-item>Ingresa imagenes para el producto</mat-list-item>
-<mat-divider></mat-divider>
-  <br>
-  <div class="row">    
-     
-  </div><br>
-
-<mat-list-item>Caracteriesticas del el producto</mat-list-item>
-<mat-divider></mat-divider>
-<br>
-
-  <div *ngIf = "!largo; else resive">
-    <div class="container">     
-        <form [formGroup] = "formulario" (ngSubmit)= "add(formulario.value)">
-            <div class="row">
-              <div class="col-sm-4">
-                <mat-form-field appearance="legacy" style="width: 100%" >
-                  <mat-label>Largo</mat-label>
-                    <input matInput placeholder="Largo" formControlName="largo" [(ngModel)]="product.largo" autocomplete="off">
-                    <mat-hint>Ingresa el largo en unidad de metros( M ).</mat-hint>
-                    <mat-icon *ngIf="!formulario.controls.largo.errors"class="formIsGood" matSuffix>done</mat-icon>  
-                    <mat-icon *ngIf="formulario.controls.largo.errors" class="formIsBad" matSuffix>close</mat-icon>   
-                </mat-form-field>
-              </div>
-              <div *ngIf="formulario.controls.largo.errors">
-                  <div *ngIf="formulario.controls.largo.errors.pattern">
-                      <div class="alert alert-danger" role="alert"><strong>{{product.largo}}</strong>, No asignes letras ni caracteres 
-                        <mat-icon matSuffix>mood_bad</mat-icon> </div>    
-                  </div>
-              </div>
-
-              <div class="col-sm-4">
-                <mat-form-field appearance="legacy" style="width: 100%" >
-                  <mat-label>Alto</mat-label>
-                    <input matInput placeholder="Alto" formControlName="alto" [(ngModel)]="product.alto" autocomplete="off">
-                    <mat-hint>Ingresa el alto en unidad de metros( M ).</mat-hint>
-                    <mat-icon *ngIf="!formulario.controls.alto.errors"class="formIsGood" matSuffix>done</mat-icon>  
-                    <mat-icon *ngIf="formulario.controls.alto.errors" class="formIsBad" matSuffix>close</mat-icon>   
-                </mat-form-field>
-              </div>
-              <div *ngIf="formulario.controls.alto.errors">
-                  <div *ngIf="formulario.controls.alto.errors.pattern">
-                      <div class="alert alert-danger" role="alert"><strong>{{product.alto}}</strong>, No asignes letras ni caracteres 
-                        <mat-icon matSuffix>mood_bad</mat-icon> </div>    
-                  </div>
-              </div>
-            </div>
-            <br>
-            <div class="row">
-              <div class="col-sm-4">
-                <mat-form-field appearance="legacy" style="width: 100%" >
-                  <mat-label>Ancho</mat-label>
-                    <input matInput placeholder="Ancho" formControlName="ancho" [(ngModel)]="product.ancho" autocomplete="off">
-                    <mat-hint>Ingresa el Ancho en unidad de metros( M ).</mat-hint>
-                    <mat-icon *ngIf="!formulario.controls.ancho.errors"class="formIsGood" matSuffix>done</mat-icon>  
-                    <mat-icon *ngIf="formulario.controls.ancho.errors" class="formIsBad" matSuffix>close</mat-icon>   
-                </mat-form-field>
-              </div>
-              <div *ngIf="formulario.controls.ancho.errors">
-                  <div *ngIf="formulario.controls.ancho.errors.pattern">
-                      <div class="alert alert-danger" role="alert"><strong>{{product.ancho}}</strong>, No asignes letras ni caracteres 
-                        <mat-icon matSuffix>mood_bad</mat-icon> </div>    
-                  </div>
-              </div>
-              <div class="col-sm-4">
-                <mat-form-field appearance="legacy" style="width: 100%" >
-                  <mat-label>Peso</mat-label>
-                    <input matInput placeholder="Peso" maxlength="6" formControlName="peso" [(ngModel)]="product.peso" autocomplete="off">
-                    <mat-hint>Ingresa el Peso en unidad de libreas( Lb ).</mat-hint>
-                    <mat-icon *ngIf="!formulario.controls.peso.errors"class="formIsGood" matSuffix>done</mat-icon>  
-                    <mat-icon *ngIf="formulario.controls.peso.errors" class="formIsBad" matSuffix>close</mat-icon>   
-                </mat-form-field>
-              </div>
-              <div *ngIf="formulario.controls.peso.errors">
-                  <div *ngIf="formulario.controls.peso.errors.pattern">
-                      <div class="alert alert-danger" role="alert"><strong>{{product.peso}}</strong>, No asignes letras ni caracteres 
-                        <mat-icon matSuffix>mood_bad</mat-icon> </div>    
-                  </div>
-              </div>
-            </div>
-            <br>
-            <div class="row">
-              <div class="col-sm-4">
-                <mat-form-field appearance="legacy" style="width: 100%" >
-                  <mat-label>Talla</mat-label>
-                    <input matInput placeholder="Talla" maxlength="6" formControlName="talla" [(ngModel)]="product.talla" autocomplete="off">
-                    <mat-hint></mat-hint>
-                </mat-form-field>
-              </div> 
-              <div class="col-sm-4">
-                <mat-form-field appearance="legacy" style="width: 100%" >
-                  <mat-label>Color</mat-label>
-                    <input matInput placeholder="Color" maxlength="6" formControlName="color" [(ngModel)]="product.color" autocomplete="off">
-                    <mat-hint>Ingresa el Color.</mat-hint>
-                    <mat-icon *ngIf="!formulario.controls.color.errors"class="formIsGood" matSuffix>done</mat-icon>  
-                    <mat-icon *ngIf="formulario.controls.color.errors" class="formIsBad" matSuffix>close</mat-icon>   
-                </mat-form-field>
-              </div>
-              <div *ngIf="formulario.controls.color.errors">
-                  <div *ngIf="formulario.controls.color.errors.pattern">
-                      <div class="alert alert-danger" role="alert"><strong>{{product.color}}</strong>, No asignes numeros ni caracteres 
-                        <mat-icon matSuffix>mood_bad</mat-icon> </div>    
-                  </div>
-              </div> 
-            </div>           
-            
-          
-
-              
-              
-
-              <!--div class="col-sm-4">
-                <mat-form-field appearance="legacy" style="width: 100%">
-                  <mat-label>Ancho</mat-label>
-                    <input matInput placeholder="Ancho" >
-                    <mat-icon class="mat-icon_name_product" matSuffix>content_paste</mat-icon>
-                </mat-form-field>
-              </div>
-
-              <div class="col-sm-4">
-                <mat-form-field appearance="legacy" style="width: 100%" >
-                  <mat-label>Color</mat-label>
-                    <input matInput placeholder="Color" >
-                    <mat-icon class="mat-icon_name_product" matSuffix>content_paste</mat-icon>        
-                </mat-form-field>
-                <br>
-              </div>
-              
-              <div class="col-sm-4">
-              
-                <mat-form-field appearance="legacy" style="width: 100%"  >
-                  <mat-label>Talla</mat-label>
-                    <input matInput placeholder="Talla" >
-                    <mat-icon class="mat-icon_name_product" matSuffix>content_paste</mat-icon>        
-                </mat-form-field>
-                <br>
-              </div>
-              
-              <div class="col-sm-4">
-                <mat-form-field appearance="legacy" style="width: 100%" >
-                  <mat-label>Precio</mat-label>
-                    <input matInput placeholder="Precio" >
-                    <mat-icon class="mat-icon_name_product" matSuffix>attach_money</mat-icon>
-                </mat-form-field>
-                <br>
-              </div>
-              
-              <div class="col-sm-4">
-                <mat-form-field appearance="legacy" style="width: 100%" >
-                  <mat-label>Descuento</mat-label>
-                    <input matInput placeholder="Descuento" >
-                    <mat-icon class="mat-icon_name_product" matSuffix>attach_money</mat-icon>              
-                </mat-form-field>
-                <br>
-              </div>
-              <div class="col-sm-8">
-                <button class="btn btn-block btn-success" (click)="saveProduct()"> Crear producto </button>
-              </div -->
-           
-          
-        </form> 
+  <div *ngIf="!form_producto_save">
+    <mat-list-item style="color: red">Espesifica el producto</mat-list-item>
+    <mat-divider></mat-divider>
+    <br>
+    <div class="row">
+      <div class="col-sm-6">
+        <!-- input : Nombre o titulo de producto -->
+        <mat-form-field appearance="legacy" style="width: 100%">
+          <mat-label>Titulo  Producto </mat-label>
+            <input matInput placeholder="Titulo" [(ngModel)]="product.Titulo" #validatename="ngModel" required>
+            <mat-icon *ngIf="product_titulo_input"class="formIsBad" matSuffix>close</mat-icon>              
+            <mat-icon class="mat-icon_name_product" class="formIsBad" matSuffix>content_paste</mat-icon>
+          <mat-hint>Ingrese el nombre que quieres para tu producto.</mat-hint>      
+        </mat-form-field>
       </div>
+
+      <div class="col-sm-6">
+        <!-- input : Ingresa el SKU -->
+        <mat-form-field appearance="legacy" style="width: 100%"  matTooltip="Referencia de Almacén">
+          <mat-label>SKU</mat-label>
+            <input matInput placeholder="SKU" [(ngModel)]="product.SKU">
+            <mat-icon class="mat-icon_name_product" matSuffix>content_paste</mat-icon>
+          <mat-hint>código único que se asigna a un producto para identificarlo.</mat-hint>      
+        </mat-form-field>
+        <br>
+      </div>
+
+      <div class="col-sm-12">
+        <!-- textArea : descripcion de producto -->
+        <mat-form-field appearance="legacy" style="width: 100%">
+          <mat-label>descripción para el Producto </mat-label>
+            <textarea matInput placeholder="descripción"  [(ngModel)]="product.Descripcion" required></textarea>
+            <mat-icon *ngIf="product_descripcion_input"class="formIsBad" matSuffix>close</mat-icon>
+            <mat-icon class="mat-icon_name_product" matSuffix>content_paste</mat-icon>
+          <mat-hint>Describa el producto.</mat-hint>      
+        </mat-form-field>      
+      </div>
+    </div>
+    <br>
+    <mat-list-item style="color: red">Ingresa imagenes para el producto</mat-list-item>
+    <mat-divider></mat-divider>
+      <br>
+      <div class="row">    
+        
+      </div><br>
+
+    <mat-list-item style="color: red">Caracteriesticas del el producto</mat-list-item>
+    <mat-divider></mat-divider>
+    <br>
+
+ 
+      <div class="container">  
+        <form [formGroup] = "formulario" (ngSubmit)= "add(formulario.value)">
+          <div class="row">
+            <div class="col-sm-4">
+              <mat-form-field appearance="legacy" style="width: 100%" >
+                <mat-label>Largo</mat-label>
+                  <input matInput placeholder="Largo" formControlName="largo" [(ngModel)]="product.Largo" autocomplete="off">
+                  <mat-hint>Ingresa el largo en unidad de metros( M ).</mat-hint>
+                  <mat-icon *ngIf="!formulario.controls.largo.errors"class="formIsGood" matSuffix>done</mat-icon>  
+                  <mat-icon *ngIf="formulario.controls.largo.errors" class="formIsBad" matSuffix>close</mat-icon>   
+              </mat-form-field>
+            </div>
+            <div *ngIf="formulario.controls.largo.errors">
+                <div *ngIf="formulario.controls.largo.errors.pattern">
+                    <div class="alert alert-danger" role="alert"><strong>{{product.largo}}</strong>, No asignes letras ni caracteres 
+                      <mat-icon matSuffix>mood_bad</mat-icon> </div>    
+                </div>
+            </div>
+            <div class="col-sm-4">
+              <mat-form-field appearance="legacy" style="width: 100%" >
+                <mat-label>Alto</mat-label>
+                  <input matInput placeholder="Alto" formControlName="alto" [(ngModel)]="product.Alto" autocomplete="off">
+                  <mat-hint>Ingresa el alto en unidad de metros( M ).</mat-hint>
+                  <mat-icon *ngIf="!formulario.controls.alto.errors"class="formIsGood" matSuffix>done</mat-icon>  
+                  <mat-icon *ngIf="formulario.controls.alto.errors" class="formIsBad" matSuffix>close</mat-icon>   
+              </mat-form-field>
+            </div>
+            <div *ngIf="formulario.controls.alto.errors">
+                <div *ngIf="formulario.controls.alto.errors.pattern">
+                    <div class="alert alert-danger" role="alert"><strong>{{product.alto}}</strong>, No asignes letras ni caracteres 
+                      <mat-icon matSuffix>mood_bad</mat-icon> </div>    
+                </div>
+            </div>
+          </div>
+
+          <br>
+          <div class="row">
+            <div class="col-sm-4">
+              <mat-form-field appearance="legacy" style="width: 100%" >
+                <mat-label>Ancho</mat-label>
+                  <input matInput placeholder="Ancho" formControlName="ancho" [(ngModel)]="product.Ancho" autocomplete="off">
+                  <mat-hint>Ingresa el Ancho en unidad de metros( M ).</mat-hint>
+                  <mat-icon *ngIf="!formulario.controls.ancho.errors"class="formIsGood" matSuffix>done</mat-icon>  
+                  <mat-icon *ngIf="formulario.controls.ancho.errors" class="formIsBad" matSuffix>close</mat-icon>   
+              </mat-form-field>
+            </div>
+            <div *ngIf="formulario.controls.ancho.errors">
+                <div *ngIf="formulario.controls.ancho.errors.pattern">
+                    <div class="alert alert-danger" role="alert"><strong>{{product.ancho}}</strong>, No asignes letras ni caracteres 
+                      <mat-icon matSuffix>mood_bad</mat-icon> </div>    
+                </div>
+            </div>
+            <div class="col-sm-4">
+              <mat-form-field appearance="legacy" style="width: 100%" >
+                <mat-label>Peso</mat-label>
+                  <input matInput placeholder="Peso" maxlength="6" formControlName="peso" [(ngModel)]="product.Peso" autocomplete="off">
+                  <mat-hint>Ingresa el Peso en unidad de libreas( Lb ).</mat-hint>
+                  <mat-icon *ngIf="!formulario.controls.peso.errors"class="formIsGood" matSuffix>done</mat-icon>  
+                  <mat-icon *ngIf="formulario.controls.peso.errors" class="formIsBad" matSuffix>close</mat-icon>   
+              </mat-form-field>
+            </div>
+            <div *ngIf="formulario.controls.peso.errors">
+                <div *ngIf="formulario.controls.peso.errors.pattern">
+                    <div class="alert alert-danger" role="alert"><strong>{{product.peso}}</strong>, No asignes letras ni caracteres 
+                      <mat-icon matSuffix>mood_bad</mat-icon> </div>    
+                </div>
+            </div>
+          </div>
+          <br>
+
+          <div class="row">
+            <div class="col-sm-4">
+              <mat-form-field appearance="legacy" style="width: 100%" >
+                <mat-label>Talla</mat-label>
+                  <input matInput placeholder="Talla" maxlength="6" formControlName="talla" [(ngModel)]="product.Talla" autocomplete="off">
+                  <mat-hint></mat-hint>
+              </mat-form-field>
+            </div> 
+            <div class="col-sm-4">
+              <mat-form-field appearance="legacy" style="width: 100%" >
+                <mat-label>Color</mat-label>
+                  <input matInput placeholder="Color" maxlength="23" formControlName="color" [(ngModel)]="product.Color" autocomplete="off">
+                  <mat-hint>Ingresa el Color.</mat-hint>
+                  <mat-icon *ngIf="!formulario.controls.color.errors"class="formIsGood" matSuffix>done</mat-icon>  
+                  <mat-icon *ngIf="formulario.controls.color.errors" class="formIsBad" matSuffix>close</mat-icon>   
+              </mat-form-field>
+            </div>
+            <div *ngIf="formulario.controls.color.errors">
+                <div *ngIf="formulario.controls.color.errors.pattern">
+                    <div class="alert alert-danger" role="alert"><strong>{{product.color}}</strong>, No asignes numeros ni caracteres 
+                      <mat-icon matSuffix>mood_bad</mat-icon> </div>    
+                </div>
+            </div> 
+          </div>
+          <br>
+          
+          <mat-list-item style=" color:red">Condiciones de ventas</mat-list-item>
+          <mat-divider></mat-divider>
+          <br>
+          <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-4">
+              <mat-form-field appearance="legacy" style="width: 100%" >
+                <mat-label>Precio</mat-label>
+                  <input
+                  digitOnly
+                  matInput placeholder="Precio" s
+                  maxlength="25"
+                  formControlName="precio" 
+                  [(ngModel)]="product.Precio" 
+                  autocomplete="off"
+                  (keyup)= "validatePrice($event.target.value)" >
+                  <mat-hint>Ingresa el Precio para el producto.</mat-hint>
+                  <mat-icon *ngIf="!formulario.controls.precio.errors"class="formIsGood" matSuffix>done</mat-icon>  
+                  <mat-icon *ngIf="formulario.controls.precio.errors" class="formIsBad" matSuffix>close</mat-icon>   
+              </mat-form-field>
+              <div *ngIf="formulario.controls.precio.errors">
+                <div *ngIf="formulario.controls.precio.errors.pattern">
+                    <div class="alert alert-danger" role="alert"><strong>{{product.precio}}</strong>, No escribas letras ni caracteres. 
+                      <mat-icon matSuffix>mood_bad</mat-icon> </div>    
+                </div>
+              </div> 
+            </div>
+            <div class="col-sm-4">
+              <mat-form-field appearance="legacy" style="width: 100%" >
+                <mat-label>Precio con descuento</mat-label>
+                  <input
+                  digitOnly 
+                  matInput placeholder="Precio con descuento" 
+                  maxlength="25" 
+                  formControlName="descuento" 
+                  [(ngModel)]="product.Precio_Descuento" 
+                  autocomplete="off"                   
+                  (keyup)= "validateDiscount($event.target.value)">
+                  <mat-hint>Ingresa el descuento que tendra el producto.</mat-hint>
+                  <mat-icon *ngIf="!formulario.controls.descuento.errors"class="formIsGood" matSuffix>done</mat-icon>  
+                  <mat-icon *ngIf="formulario.controls.descuento.errors" class="formIsBad" matSuffix>close</mat-icon>   
+              </mat-form-field>
+              <div *ngIf="formulario.controls.descuento.errors">
+                <div *ngIf="formulario.controls.descuento.errors.pattern">
+                    <div class="alert alert-danger" role="alert"><strong>{{product.descuento}}</strong>, No escribas letras ni caracteres. 
+                      <mat-icon matSuffix>mood_bad</mat-icon> </div>    
+                </div>
+              </div>
+            </div>
+          </div>
+          <br>
+          </form>
+            
+          <div class="row">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4">
+              <button mat-raised-button color="primary" class="btn-block" (click)="saveProduct(2)">Guardar producto <mat-icon class="formIsGood" matSuffix>done</mat-icon> </button>
+            </div>
+            <div class="col-sm-4"></div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-sm-4"  style="color: red">
+              <p *ngIf="product_titulo_input">Completa el campo <strong>Titulo</strong><mat-icon>close</mat-icon> </p>
+              <p *ngIf="product_descripcion_input">Completa el campo <strong>descripción</strong><mat-icon>close</mat-icon></p>
+            </div>
+            <div class="col-sm-4">
+              <button mat-raised-button class="btn-block btn-primary" (click)="saveProduct(0)">Cancelar producto <mat-icon class="formIsBad" matSuffix>close</mat-icon></button>
+            </div>
+            <div class="col-sm-4"></div>
+          </div>
+
+        </div>
+    </div>
   </div>
-</div>
+
 
 
 

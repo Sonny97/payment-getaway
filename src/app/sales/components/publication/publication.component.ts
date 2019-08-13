@@ -27,6 +27,8 @@ export class PublicationComponent implements OnInit {
   private category: ModelPublication;
   private product: ModelProduct;
   public selectClient: any;
+  public nextSave: number = 0;
+
   // Variables de trueOrFalse inputs categorias
   public existingCategorySecondInput: boolean = false
   isLinear = true;
@@ -56,6 +58,8 @@ export class PublicationComponent implements OnInit {
     seventhControl: '',
   })
   public formulario:FormGroup;
+
+  //________________________________
   
   /*========================
   * Objeto form producto
@@ -64,6 +68,8 @@ export class PublicationComponent implements OnInit {
 
   // inputs
   product_name_input: boolean = false;
+  product_titulo_input: boolean = false;
+  product_descripcion_input: boolean = false;
 
 
 
@@ -76,6 +82,7 @@ export class PublicationComponent implements OnInit {
   existingCategory_input5:boolean = false;
   existingCategory_input6:boolean = false;
   btn_category_save = false // boton de guardado para las categorias
+  form_producto_save = false // formulario para guardar producto
 
   constructor( 
     private _formBuilder: FormBuilder
@@ -90,7 +97,7 @@ export class PublicationComponent implements OnInit {
 
   ngOnInit() {
     this.getPublication();
-    this.saveProduct();
+    this.validated_saveProduct();
     
   }
 
@@ -111,19 +118,19 @@ export class PublicationComponent implements OnInit {
   public getPublication(){
     this.publicCategoryserviceService.getPublicCategory().subscribe
     (data => {
-      this.publicCategory = data.filter(parenth => parenth)      
+      this.publicCategory = data.filter(parenth => parenth);      
       sessionStorage.setItem("listCategory",JSON.stringify(this.publicCategory))
     }
     )
   }
 
-
  //  Filtro padre
   public filter_parent(value){
-    if(this.product.name == null || this.product.name == "") {
+    if(this.product.Titulo == null || this.product.Titulo == "") {
       this.product_name_input = true
-      
     }else{
+      console.log()
+
       this.existingCategory_input0 = true;
       this.publicCategory = JSON.parse(sessionStorage.getItem("listCategory"))
       this.listCategory = this.publicCategory.filter(items => items.parent_id == value)
@@ -342,16 +349,65 @@ export class PublicationComponent implements OnInit {
     }
   }
   
-  public saveProduct(){
+  public validated_saveProduct(){
     this.formulario = this._formBuilder.group({
+
       'largo':[null, Validators.compose([ Validators.pattern("[0-9]{1,6}")])],
       'alto' :[null, Validators.compose([ Validators.pattern("[0-9]{1,6}")])],
       'ancho' :[null, Validators.compose([ Validators.pattern("[0-9]{1,6}")])],
       'peso' :[null, Validators.compose([ Validators.pattern("[0-9]{1,6}")])],
       'talla' :[null, Validators.compose([])],
       'color' :[null, Validators.compose([ Validators.pattern("^[a-zA-Z -/*_]{1,15}")])],
-
+      'precio' :[null, Validators.compose([Validators.pattern("^[0-9 $.]{1,25}")])],
+      'descuento':[null, Validators.compose([Validators.pattern("^[0-9 $.]{1,25}")])],
     })
+    
   }
+
+  public saveProduct(value){
+    console.log('Este es el objeto : ',this.product)
+    this.publicCategoryserviceService.postProduct(this.product).subscribe(
+      res => {
+        console.log('Respuesta OK : ',res)
+      },
+      err=>{
+        console.log('Respuesta Error : ', err)
+      }
+    )
+    
+    switch(value){
+      case 1:
+        this.form_producto_save = true;
+        break
+      case 2:
+        //console.log(this.product.precio.toString().replace(/\./g, '').replace(/\$ /g, ''))
+       
+        if(this.product.Titulo == null || this.product.Titulo ==  ''){
+          this.product_titulo_input = true;
+        }else if(this.product.Descripcion == null || this.product.Descripcion ==  ''){
+          this.product_descripcion_input = true;
+        } else{
+          
+        }
+        break
+      case 0:
+        document.location.reload(true)
+        break
+    }
+  }
+
+  public validatePrice(event){
+    event = event.replace(/\./g, '').replace(/([0-9]{1})([0-9]{2})/g, '$1.$2');
+    event = event.replace(/\$ /g, '').replace(/([0-9]{0})/,'$ ');
+    this.product.Precio = event;
+    console.log(event)
+  }
+  public validateDiscount(event){
+    event = event.replace(/\./g, '').replace(/([0-9]{1})([0-9]{2})/g, '$1.$2');
+    event = event.replace(/\$ /g, '').replace(/([0-9]{0})/,'$ ');
+    this.product.Precio_Descuento = event;
+    console.log(event)
+  }
+  
 
 }
