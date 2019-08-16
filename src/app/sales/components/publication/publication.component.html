@@ -1,10 +1,11 @@
+
 <div class="container">
  
   <div class="row">
     <div class="col-sm-6">
       <mat-form-field appearance="legacy" style="width: 50%">
         <mat-label>Titulo  Producto </mat-label>
-          <input matInput placeholder="Titulo" [(ngModel)]="product.Titulo" #validatename="ngModel" required>
+          <input matInput placeholder="Titulo" [(ngModel)]="product.titulo" #validatename="ngModel" required>
           <mat-icon *ngIf="product_titulo_input"class="formIsBad" matSuffix>close</mat-icon> 
           <mat-icon class="mat-icon_name_product" class="formIsBad" matSuffix>content_paste</mat-icon>  
         <mat-hint>Ingrese el nombre que quieres para tu producto.</mat-hint>   
@@ -50,14 +51,14 @@
         </form>
       </mat-step>
       <!--
-       Comienza el filtro y canpos para el hijo 0
+       Comienza el filtro y canpos para el hijo 1
       -->
       <mat-step [stepControl]="childProductType"  #child_1 *ngIf="existingCategory_input1">
         <form [formGroup]="childProductType" >
             <mat-form-field>          
               <mat-form-field appearance="outline" style="width: 100%  !important;">
                 <mat-label>Selecciona</mat-label>
-                <input type="text" matInput id="second" value=""  formControlName="secondControl" placeholder="Categoria" name="filter_child" [matAutocomplete]="second" required>
+                <input type="text" matInput id="second" (change)="filter_child_1()" formControlName="secondControl" placeholder="Categoria" name="filter_child" [matAutocomplete]="second" >
                 <mat-autocomplete #second="matAutocomplete" (optionSelected)="filter_child_2()">
                   <mat-option *ngFor="let item of secondFilter  | async"  [value]="item.name" required>
                     <a>{{item.name}}</a>
@@ -72,14 +73,14 @@
           </form>
       </mat-step>
       <!--
-       Comienza el filtro y canpos para el hijo 1
+       Comienza el filtro y canpos para el hijo 2
       -->
       <mat-step [stepControl]="childProductType_2" *ngIf="existingCategory_input2" >
         <form [formGroup]="childProductType_2" #child_2>
           <mat-form-field>          
             <mat-form-field appearance="outline" style="width: 100%  !important;">
               <mat-label>Selecciona</mat-label>
-              <input type="text" matInput   formControlName="thirdControl"  placeholder="Categoria"  [matAutocomplete]="third" required>
+              <input type="text" matInput   formControlName="thirdControl"  (change)="filter_child_2()" placeholder="Categoria"  [matAutocomplete]="third" required>
               <mat-autocomplete #third="matAutocomplete" (optionSelected)="filter_child_3()">
                 <mat-option *ngFor="let item of thirdFilter  | async"  [value]="item.name" required>
                   <a>{{item.name}}</a>
@@ -94,14 +95,14 @@
         </form>
       </mat-step>
       <!--
-       Comienza el filtro y canpos para el hijo 2
+       Comienza el filtro y canpos para el hijo 3
       -->
       <mat-step [stepControl]="childProductType_3" *ngIf="existingCategory_input3">
         <form [formGroup]="childProductType_3" #child_3>
           <mat-form-field>          
             <mat-form-field appearance="outline" style="width: 100%  !important;">
               <mat-label>Selecciona</mat-label>
-              <input type="text" matInput   formControlName="quarterControl" placeholder="Categoria"  [matAutocomplete]="quarter" required>
+              <input type="text" matInput   formControlName="quarterControl" placeholder="Categoria"  (change)="filter_child_3()" [matAutocomplete]="quarter" required>
               <mat-autocomplete #quarter="matAutocomplete" (optionSelected)="filter_child_4()" >
                 <mat-option *ngFor="let item of quarterFilter  | async"  [value]="item.name" required>
                   <a>{{item.name}}</a>
@@ -116,14 +117,14 @@
         </form>
       </mat-step>
       <!--
-       Comienza el filtro y canpos para el hijo 3
+       Comienza el filtro y canpos para el hijo 4
       -->
       <mat-step [stepControl]="childProductType_4" *ngIf="existingCategory_input4">
         <form [formGroup]="childProductType_4" #child_4>
           <mat-form-field>          
             <mat-form-field appearance="outline" style="width: 100%  !important;">
               <mat-label>Selecciona</mat-label>
-              <input type="text" matInput   formControlName="fifthControl" placeholder="Categoria"  [matAutocomplete]="fifth" required>
+              <input type="text" matInput   formControlName="fifthControl" placeholder="Categoria" (change)="filter_child_4()" [matAutocomplete]="fifth" required>
               <mat-autocomplete #fifth="matAutocomplete" (optionSelected)= "filter_child_5()">
                 <mat-option *ngFor="let item of fifthFilter  | async"  [value]="item.name" required>
                   <a>{{item.name}}</a>
@@ -138,14 +139,14 @@
         </form>
       </mat-step>
       <!--
-       Comienza el filtro y canpos para el hijo 4
+       Comienza el filtro y canpos para el hijo 5
       -->
       <mat-step [stepControl]="childProductType_5" *ngIf="existingCategory_input5">
         <form [formGroup]="childProductType_5" #child_5>
           <mat-form-field>          
             <mat-form-field appearance="outline" style="width: 100%  !important;">
               <mat-label>Selecciona</mat-label>
-              <input type="text" matInput   formControlName="sixthControl" placeholder="Categoria"  [matAutocomplete]="sixth" required>
+              <input type="text" matInput   formControlName="sixthControl" placeholder="Categoria" (change)="filter_child_5()" [matAutocomplete]="sixth" required>
               <mat-autocomplete #sixth="matAutocomplete" (optionSelected) = "filter_child_6()">
                 <mat-option *ngFor="let item of sixthFilter  | async"  [value]="item.name" required>
                   <a>{{item.name}}</a>
@@ -167,7 +168,7 @@
           <mat-form-field>          
             <mat-form-field appearance="outline" style="width: 100%  !important;">
               <mat-label>Selecciona</mat-label>
-              <input type="text" matInput   formControlName="seventhControl" placeholder="Categoria"  [matAutocomplete]="seventh" required>
+              <input type="text" matInput   formControlName="seventhControl" placeholder="Categoria" (change)="filter_child_6()" [matAutocomplete]="seventh" required>
               <mat-autocomplete #seventh="matAutocomplete" >
                 <mat-option *ngFor="let item of seventhFilter  | async"  [value]="item.name" required>
                   <a>{{item.name}}</a>
@@ -198,8 +199,8 @@
 -->
 
 
-  <div *ngIf="!form_producto_save">
-    <mat-list-item style="color: red">Espesifica el producto</mat-list-item>
+  <div *ngIf="form_producto_save || updateProduct">
+    <mat-list-item style="color: blue">Espesifica el producto</mat-list-item>
     <mat-divider></mat-divider>
     <br>
     <div class="row">
@@ -207,7 +208,7 @@
         <!-- input : Nombre o titulo de producto -->
         <mat-form-field appearance="legacy" style="width: 100%">
           <mat-label>Titulo  Producto </mat-label>
-            <input matInput placeholder="Titulo" [(ngModel)]="product.Titulo" #validatename="ngModel" required>
+            <input matInput placeholder="Titulo" [(ngModel)]="product.titulo" #validatename="ngModel" required>
             <mat-icon *ngIf="product_titulo_input"class="formIsBad" matSuffix>close</mat-icon>              
             <mat-icon class="mat-icon_name_product" class="formIsBad" matSuffix>content_paste</mat-icon>
           <mat-hint>Ingrese el nombre que quieres para tu producto.</mat-hint>      
@@ -237,18 +238,16 @@
       </div>
     </div>
     <br>
-    <mat-list-item style="color: red">Ingresa imagenes para el producto</mat-list-item>
+    <mat-list-item style="color: blue">Ingresa imagenes para el producto</mat-list-item>
     <mat-divider></mat-divider>
       <br>
       <div class="row">    
         
       </div><br>
 
-    <mat-list-item style="color: red">Caracteriesticas del el producto</mat-list-item>
+    <mat-list-item style="color: blue">Caracteriesticas del el producto</mat-list-item>
     <mat-divider></mat-divider>
     <br>
-
- 
       <div class="container">  
         <form [formGroup] = "formulario" (ngSubmit)= "add(formulario.value)">
           <div class="row">
@@ -345,7 +344,7 @@
           </div>
           <br>
           
-          <mat-list-item style=" color:red">Condiciones de ventas</mat-list-item>
+          <mat-list-item style=" color:blue">Condiciones de ventas</mat-list-item>
           <mat-divider></mat-divider>
           <br>
           <div class="row">
@@ -401,15 +400,16 @@
           <div class="row">
             <div class="col-sm-4"></div>
             <div class="col-sm-4">
-              <button mat-raised-button color="primary" class="btn-block" (click)="saveProduct(2)">Guardar producto <mat-icon class="formIsGood" matSuffix>done</mat-icon> </button>
+              <button mat-raised-button color="primary" *ngIf="!updateProduct" class="btn-block" (click)="saveProduct(2)">Guardar producto <mat-icon class="formIsGood" matSuffix>done</mat-icon> </button>
+              <button mat-raised-button color="primary" *ngIf="updateProduct" class="btn-block" (click)="saveProduct(3)">Guardar producto <mat-icon class="formIsGood" matSuffix>done</mat-icon> </button>
             </div>
             <div class="col-sm-4"></div>
           </div>
           <br>
           <div class="row">
             <div class="col-sm-4"  style="color: red">
-              <p *ngIf="product_titulo_input">Completa el campo <strong>Titulo</strong><mat-icon>close</mat-icon> </p>
-              <p *ngIf="product_descripcion_input">Completa el campo <strong>descripción</strong><mat-icon>close</mat-icon></p>
+              <p *ngIf="product_titulo_input">Completa el campo <strong>Titulo</strong> </p>
+              <p *ngIf="product_descripcion_input">Completa el campo <strong>descripción</strong></p>
             </div>
             <div class="col-sm-4">
               <button mat-raised-button class="btn-block btn-primary" (click)="saveProduct(0)">Cancelar producto <mat-icon class="formIsBad" matSuffix>close</mat-icon></button>

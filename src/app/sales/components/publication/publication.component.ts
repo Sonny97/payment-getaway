@@ -8,6 +8,7 @@ import { THIS_EXPR, ThrowStmt, ReturnStatement } from '@angular/compiler/src/out
 import { User } from 'app/login/components/login/user/user.model';
 import { ModelPublication } from './publication.model';
 import { ModelProduct } from 'app/models/product.model';
+import { ProductsService } from 'app/services/products.service';
 
 
 @Component({
@@ -28,6 +29,10 @@ export class PublicationComponent implements OnInit {
   private product: ModelProduct;
   public selectClient: any;
   public nextSave: number = 0;
+
+  @Input() updateProduct = false;  
+  @Input() updateProductObjet:ModelProduct;
+  @Input() createNewProduct;
 
   // Variables de trueOrFalse inputs categorias
   public existingCategorySecondInput: boolean = false
@@ -71,8 +76,6 @@ export class PublicationComponent implements OnInit {
   product_titulo_input: boolean = false;
   product_descripcion_input: boolean = false;
 
-
-
   // categorias existente de arbo de seleccion
   existingCategory_input0:boolean = false;
   existingCategory_input1:boolean = false;
@@ -84,20 +87,27 @@ export class PublicationComponent implements OnInit {
   btn_category_save = false // boton de guardado para las categorias
   form_producto_save = false // formulario para guardar producto
 
-  constructor( 
-    private _formBuilder: FormBuilder
-    ,private  publicCategoryserviceService : PublicCategoryserviceService
+  constructor(private _formBuilder: FormBuilder,private publicCategoryserviceService : PublicCategoryserviceService, private productsService:ProductsService
   ){
     this.category = new ModelPublication();
     this.product = new ModelProduct();
-  
-
     this.existingCategory_input1;
+
+    
   }
 
   ngOnInit() {
     this.getPublication();
     this.validated_saveProduct();
+    if(localStorage.getItem("action")=="upDate"){
+      console.log("actualizar dato: ", this.updateProduct)
+      this.update();
+    }if(localStorage.getItem("action")=="createNew"){
+      console.log("Nuevo dato: ",this.updateProduct)
+      this.updateProduct = false;
+      this.saveProduct(2);
+      
+    }
     
   }
 
@@ -126,7 +136,7 @@ export class PublicationComponent implements OnInit {
 
  //  Filtro padre
   public filter_parent(value){
-    if(this.product.Titulo == null || this.product.Titulo == "") {
+    if(this.product.titulo == null || this.product.titulo == "") {
       this.product_name_input = true
     }else{
       console.log()
@@ -160,7 +170,7 @@ export class PublicationComponent implements OnInit {
 
   
   // Filtro hijos 1.
-  public filter_child_1(){
+  public filter_child_1(){    
     this.publicCategory = JSON.parse(sessionStorage.getItem("listCategory"))
     this.result = JSON.parse(sessionStorage.getItem("listCategoryChild"))    ;
     for(var i of this.result){
@@ -358,49 +368,72 @@ export class PublicationComponent implements OnInit {
       'peso' :[null, Validators.compose([ Validators.pattern("[0-9]{1,6}")])],
       'talla' :[null, Validators.compose([])],
       'color' :[null, Validators.compose([ Validators.pattern("^[a-zA-Z -/*_]{1,15}")])],
-      'precio' :[null, Validators.compose([Validators.pattern("^[0-9 $.]{1,25}")])],
+      'precio' :[null, Validators.compose([Validators.pattern("^[0-9 $.,]{1,25}")])],
       'descuento':[null, Validators.compose([Validators.pattern("^[0-9 $.]{1,25}")])],
     })
     
   }
 
   public saveProduct(value){
-    console.log('Este es el objeto : ',this.product)
-    this.publicCategoryserviceService.postProduct(this.product).subscribe(
-      res => {
-        console.log('Respuesta OK : ',res)
-      },
-      err=>{
-        console.log('Respuesta Error : ', err)
-      }
-    )
-    
     switch(value){
       case 1:
         this.form_producto_save = true;
         break
       case 2:
         //console.log(this.product.precio.toString().replace(/\./g, '').replace(/\$ /g, ''))
-       
-        if(this.product.Titulo == null || this.product.Titulo ==  ''){
+        if(this.product.Descripcion ==  null || this.product.titulo ==  ''){
           this.product_titulo_input = true;
-        }else if(this.product.Descripcion == null || this.product.Descripcion ==  ''){
+        }if(this.product.Descripcion == null || this.product.Descripcion ==  ''){
           this.product_descripcion_input = true;
-        } else{
-          
+        }if(this.product.Descripcion != null || this.product.Descripcion !=  ''){
+          this.publicCategoryserviceService.postProduct(this.product).subscribe(
+            (response) => { console.log(response) },
+            (error) => { console.log(error) }
+          )
         }
         break
       case 0:
         document.location.reload(true)
         break
+      case 3: // Update ( Actulizar datos )
+        if(this.product.Descripcion ==  null || this.product.titulo ==  ''){
+          this.product_titulo_input = true;
+        }if(this.product.Descripcion == null || this.product.Descripcion ==  ''){
+          this.product_descripcion_input = true;
+        }if(this.product.Descripcion != null || this.product.Descripcion !=  ''){
+          this.publicCategoryserviceService.postProduct(this.product).subscribe(
+            (response) => { console.log(response) },
+            (error) => { console.log(error) }
+          )
+        }
+        break
+    }
+  }
+  fNumber = {
+    sepMil: ".", // separador para los miles
+    sepDec: ',', // separador para los decimales
+    formatear:function (num){
+    num +='';
+    var splitStr = num.split('.');
+    var splitLeft = splitStr[0];
+    var splitRight = splitStr.length > 1 ? this.sepDec + splitStr[1] : '';
+    var regx = /(\d+)(\d{3})/;
+    while (regx.test(splitLeft)) {
+    splitLeft = splitLeft.replace(regx, '$1' + this.sepMil + '$2');
+    }
+    return this.simbol + splitLeft + splitRight;
+    },
+    go:function(num, simbol){
+      this.simbol = simbol ||'';
+      return this.formatear(num);
     }
   }
 
   public validatePrice(event){
-    event = event.replace(/\./g, '').replace(/([0-9]{1})([0-9]{2})/g, '$1.$2');
-    event = event.replace(/\$ /g, '').replace(/([0-9]{0})/,'$ ');
-    this.product.Precio = event;
-    console.log(event)
+    var item
+    console.log(this.fNumber.go(event,'$'))
+    item  = this.fNumber.go(event,'$')
+    this.product.Precio = item
   }
   public validateDiscount(event){
     event = event.replace(/\./g, '').replace(/([0-9]{1})([0-9]{2})/g, '$1.$2');
@@ -408,6 +441,12 @@ export class PublicationComponent implements OnInit {
     this.product.Precio_Descuento = event;
     console.log(event)
   }
-  
 
+  public update(){
+    console.log('para actualizar')
+    console.log("UPDAT: ",JSON.parse(sessionStorage.getItem("updateProduct")))
+    this.product = JSON.parse(sessionStorage.getItem("updateProduct"))
+    sessionStorage.removeItem('updateProduct')
+    
+  }
 }

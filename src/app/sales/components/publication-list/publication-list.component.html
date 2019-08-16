@@ -1,0 +1,115 @@
+
+<div class="main-content" >
+  <div class="container-fluid">
+    <div class="row" *ngIf="!whatchProduct">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-danger">
+                    <div class="row">
+                        <div class="col-md-11">
+                            <h4 class="card-title">Publicaciones</h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- Buscador de registros -->
+                <div class="row">
+                  <div class="col-sm-1"></div>
+                    <div class="col-sm-7" class="form-group">
+                      <div class="d-flex flex-row bd-highlight mb-2">
+                        <div class="p-2 bd-highlight"><input type="text" (keyup)="applyFilter($event.target.value)" class="form-control text-danger"  placeholder=" Buscar en los resgistros"></div>
+                      <div class="p-2 bd-highlight"><mat-icon matSuffix>search</mat-icon></div>
+                    </div>
+                  </div> 
+                </div>
+                <!-- Columnas de registros -->
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table mat-table [dataSource]="data"  matSort> 
+                            <!-- descripcion_Pregunta Column -->
+                        
+                            <ng-container matColumnDef="Titulo">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: medium"> Titulo </th>
+                                <td mat-cell *matCellDef="let row" style="font-size: small"> {{row.titulo}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="Descripcion">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: medium"> Descripcion </th>
+                                <td mat-cell *matCellDef="let row" style="font-size: small"> {{row.Descripcion}} </td>
+                            </ng-container>
+                            
+                            <ng-container matColumnDef="Precio_descuento">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: medium"> Precio </th>
+                                <td mat-cell *matCellDef="let row" style="font-size: small"> {{row.Precio_descuento}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="Accion">
+                              <th mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: medium"> Accion </th>
+                              <td mat-cell *matCellDef="let row" style="font-size: small"><mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+                                  <mat-button-toggle class="btn-info" style="font-size: x-small" (click)="whatProduct(row)">Ver</mat-button-toggle>
+                                  <mat-button-toggle class="btn-warning" style="font-size: x-small" (click)="updateProduct(row)">Editar</mat-button-toggle>
+                                  <mat-button-toggle class="btn-danger" style="font-size: x-small" (click)="deleteProduct(row)">Eliminar</mat-button-toggle>
+                              </mat-button-toggle-group>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        </table>
+                        <br>
+                        <mat-paginator #paginator
+                          [pageSize]="5"
+                          [pageSizeOptions]="[5, 10, 20]"
+                          [showFirstLastButtons]="true">
+                        </mat-paginator>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="whatchProduct">
+      <div class="col-sm-4"></div>
+      <div class="col-sm-4">
+        {{productObject.titulo}}
+      </div>
+      <br>
+      <div class="col-sm-4"></div>
+      <div class="col-sm-2"></div>
+        <div class="col-sm-8" >
+          <div class="card-group rounded border border-danger">            
+            <div class="card ">               
+              <div class="card-body">
+                <p class="card-text">Precio:<br>{{productObject.Precio}}</p>
+                <p class="card-text">Descuento:<br>{{productObject.Precio_descuento}}</p>
+                <p class="card-text">Peso:<br>{{productObject.Peso}}</p>
+                <p class="card-text">Ato:<br>{{productObject.Alto}}</p>
+                <p class="card-text">Largo:<br>{{productObject.Largo}}</p>
+                <p class="card-text">Ancho:<br>{{productObject.Ancho}}</p>
+                <p class="card-text">Color:<br>{{productObject.Color}}</p>
+                <p class="card-text">Talla:<br>{{productObject.Talla}}</p>               
+              </div>
+            </div>
+            <div class="card">              
+              <div class="card-body">
+                <img class="card-img-top" src="..." alt="Card image cap"><br>
+                <img class="card-img-top" src="..." alt="Card image cap"><br>
+                <img class="card-img-top" src="..." alt="Card image cap"><br>
+                <img class="card-img-top" src="..." alt="Card image cap"><br>
+                <img class="card-img-top" src="..." alt="Card image cap"><br>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-2"></div>
+        <div class="col-sm-2"></div>
+        <div class="card col-sm-8">          
+          <div class="card-body border rounded border-danger">
+            <h5 class="card-title">Descripcion</h5>
+            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+          </div>
+        </div>
+        <div class="col-sm-2"></div>
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4">
+          <button class="btn btn-info btn-block"  (click)="listProduct()">Regresar</button>
+        </div>       
+        <div class="col-sm-4"></div>       
+      </div>
+  </div>
+</div>

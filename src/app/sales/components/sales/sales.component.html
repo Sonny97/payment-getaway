@@ -25,16 +25,20 @@
                                     </mat-list>
 
                                     <mat-list *ngIf="!posts">
-                                        <mat-list-item>
-                                                <mat-icon color='warn' mat-list-icon>error_outline</mat-icon>
-                                                <h5 mat-line>Aun no tienes publicaciones</h5>
-                                                <button mat-raised-button color="primary" (click)="createProduct()">Nuevo producto</button>
-                                                
-                                        </mat-list-item>                                        
-                                        <app-publication></app-publication>
-                                        
+                                        <mat-list-item *ngIf="!fullList">
+                                            <mat-icon color='warn' mat-list-icon>error_outline</mat-icon>
+                                            <h5 mat-line>Aun no tienes publicaciones</h5>
+                                        </mat-list-item>
+                                        <button mat-raised-button class="pull-right" color="primary"  (click)="createdProduct()">Nuevo producto</button>
+                                        <button mat-raised-button class="pull-right" color="warn" *ngIf="newProduct" (click)="cancelProduct()">Cancelar producto</button>
+                                        <br>
+                                        <app-publication-list (_updateProduct)="updateProduct($event)"
+                                            *ngIf="fullList && !newProduct" ></app-publication-list>                                 
+                                        <app-publication                                        
+                                        [updateProduct]="updateProductChild" 
+                                        *ngIf="newProduct"
+                                        [updateProductObjet]="updateProductObjet"></app-publication>
                                     </mat-list>
-
                                  </mat-tab>
                               
                                 <mat-tab>
