@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import {map, startWith} from 'rxjs/operators';
 import { PublicCategoryserviceService } from 'app/services/publicCategory.service';
@@ -9,7 +9,14 @@ import { User } from 'app/login/components/login/user/user.model';
 import { ModelPublication } from './publication.model';
 import { ModelProduct } from 'app/models/product.model';
 import { ProductsService } from 'app/services/products.service';
+import { ProductInterationService } from 'app/services/productInteration.service';
+import { formatCurrency, getCurrencySymbol } from '@angular/common';
 
+
+export interface Transaction {
+  item: string;
+  cost: number;
+}
 
 @Component({
   selector: 'app-publication',
@@ -29,6 +36,7 @@ export class PublicationComponent implements OnInit {
   private product: ModelProduct;
   public selectClient: any;
   public nextSave: number = 0;
+  public category_id : number =0
 
   @Input() updateProduct = false;  
   @Input() updateProductObjet:ModelProduct;
@@ -86,28 +94,46 @@ export class PublicationComponent implements OnInit {
   existingCategory_input6:boolean = false;
   btn_category_save = false // boton de guardado para las categorias
   form_producto_save = false // formulario para guardar producto
+  subscription: Subscription;
 
-  constructor(private _formBuilder: FormBuilder,private publicCategoryserviceService : PublicCategoryserviceService, private productsService:ProductsService
+  constructor(
+    private _formBuilder: FormBuilder
+    ,private publicCategoryserviceService : PublicCategoryserviceService
+    ,private productsService:ProductsService
+    ,private _productInteractionService: ProductInterationService
   ){
     this.category = new ModelPublication();
     this.product = new ModelProduct();
     this.existingCategory_input1;
-
     
   }
 
   ngOnInit() {
+    this.subscription = this._productInteractionService.salesEvent$.subscribe(
+      (message) =>{
+        if(message=='create'){
+          console.log("creating");
+          this.updateProduct=false
+          this.product = new ModelProduct();
+        }
+      },
+      (error) =>console.log(error)
+    )
+
+
+    
     this.getPublication();
     this.validated_saveProduct();
+    
     if(localStorage.getItem("action")=="upDate"){
       console.log("actualizar dato: ", this.updateProduct)
       this.update();
     }if(localStorage.getItem("action")=="createNew"){
       console.log("Nuevo dato: ",this.updateProduct)
       this.updateProduct = false;
-      this.saveProduct(2);
-      
+      //this.saveProduct(2);
     }
+    
     
   }
 
@@ -172,7 +198,8 @@ export class PublicationComponent implements OnInit {
   // Filtro hijos 1.
   public filter_child_1(){    
     this.publicCategory = JSON.parse(sessionStorage.getItem("listCategory"))
-    this.result = JSON.parse(sessionStorage.getItem("listCategoryChild"))    ;
+    this.result = JSON.parse(sessionStorage.getItem("listCategoryChild"));
+    console.log(this.result)
     for(var i of this.result){
       this.result = i.id
       console.log("listCategoryChild : ",this.result)
@@ -361,7 +388,6 @@ export class PublicationComponent implements OnInit {
   
   public validated_saveProduct(){
     this.formulario = this._formBuilder.group({
-
       'largo':[null, Validators.compose([ Validators.pattern("[0-9]{1,6}")])],
       'alto' :[null, Validators.compose([ Validators.pattern("[0-9]{1,6}")])],
       'ancho' :[null, Validators.compose([ Validators.pattern("[0-9]{1,6}")])],
@@ -379,13 +405,16 @@ export class PublicationComponent implements OnInit {
       case 1:
         this.form_producto_save = true;
         break
-      case 2:
+      case 2: // Create ( Crear dato )
         //console.log(this.product.precio.toString().replace(/\./g, '').replace(/\$ /g, ''))
-        if(this.product.Descripcion ==  null || this.product.titulo ==  ''){
+        
+        if(this.product.titulo ==  null || this.product.titulo ==  ''){
           this.product_titulo_input = true;
         }if(this.product.Descripcion == null || this.product.Descripcion ==  ''){
           this.product_descripcion_input = true;
         }if(this.product.Descripcion != null || this.product.Descripcion !=  ''){
+          console.log('POST-CREATE')
+          this.product.Fecha_Creacion = new Date().getDate()+"/"+(new Date().getMonth()+1)+"/"+new Date().getFullYear()+"Hora:"+new Date().getHours()+":"+new Date().getMinutes()+"m";
           this.publicCategoryserviceService.postProduct(this.product).subscribe(
             (response) => { console.log(response) },
             (error) => { console.log(error) }
@@ -401,6 +430,8 @@ export class PublicationComponent implements OnInit {
         }if(this.product.Descripcion == null || this.product.Descripcion ==  ''){
           this.product_descripcion_input = true;
         }if(this.product.Descripcion != null || this.product.Descripcion !=  ''){
+          console.log("POST-UPDATE")
+          this.product.Fecha_Actualizacion = new Date().getDate()+"/"+(new Date().getMonth()+1)+"/"+new Date().getFullYear()+"Hora:"+new Date().getHours()+":"+new Date().getMinutes()+"m";
           this.publicCategoryserviceService.postProduct(this.product).subscribe(
             (response) => { console.log(response) },
             (error) => { console.log(error) }
@@ -436,10 +467,7 @@ export class PublicationComponent implements OnInit {
     this.product.Precio = item
   }
   public validateDiscount(event){
-    event = event.replace(/\./g, '').replace(/([0-9]{1})([0-9]{2})/g, '$1.$2');
-    event = event.replace(/\$ /g, '').replace(/([0-9]{0})/,'$ ');
-    this.product.Precio_Descuento = event;
-    console.log(event)
+    
   }
 
   public update(){

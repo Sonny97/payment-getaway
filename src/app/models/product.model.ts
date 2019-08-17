@@ -1,15 +1,16 @@
 export  class ModelProduct{
     titulo : String; // title ( Requerido )
     Descripcion : String; // ( Requerido )
-    sku : number;
-    Peso : number;
-    Largo : number;
-    Color : String;
-    Alto : number;
-    Ancho : number;
-    Talla : String;
-    Precio;
-    Precio_Descuento;
+    sku : number = 0;
+    Peso : number = 0;
+    Largo : number = 0;
+    Color : String = "";
+    Alto : number = 0;
+    Ancho : number = 0;
+    Talla : String = "0";
+    Precio:number = 0;
+    Precio_Descuento:number = 0;
+    
 
     // Campos Desarrollador
     Producto_Id : any = 0;
@@ -17,8 +18,8 @@ export  class ModelProduct{
     Estado : number = 1; // ( Requerido )
     Creado_Por : number  = 1; // ( Requerido )
     Modificado_Por : number = 1; // ( Requerido )
-    Fecha_Creacion : any = "2019-05-21 15:20:00" ; // ( Requerido )
-    Fecha_Actualizacion : any = "2019-05-21 15:20:00"; // ( Requerido )
+    Fecha_Creacion : any = "" ; // ( Requerido )
+    Fecha_Actualizacion : any = ""; // ( Requerido )
     // agregar informacion
     // referencia amazon removida
 

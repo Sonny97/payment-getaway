@@ -49,6 +49,7 @@ export class PublicationListComponent implements OnInit {
   }
   
   public getProductList(){
+
     this.productsService.getProductList().subscribe(
       (response) => {
         if(!response){return}
@@ -60,11 +61,12 @@ export class PublicationListComponent implements OnInit {
         this.paginator._intl.lastPageLabel = 'Ultima pagina';
         this.paginator._intl.nextPageLabel = 'Pagina adelante';
         this.paginator._intl.previousPageLabel = 'Pagina atras';
-
-    })
+      },
+      (error)=>{console.log('No hay datos')}
+    )
   }
-      //(response) => { console.log('Response_Product : ',response) },
-      //(error) => { console.log('Error_Product : ',error) }
+    //(response) => { console.log('Response_Product : ',response) },
+    //(error) => { console.log('Error_Product : ',error) }
   public whatProduct(product){
     console.log("Poduct : ",product)
     this.whatchProduct = true;
@@ -76,6 +78,7 @@ export class PublicationListComponent implements OnInit {
 
   public updateProduct(product){
     this._updateProduct.emit()
+    console.log("fasdfsadf : ", product.sku)
     localStorage.setItem("action","upDate")
     sessionStorage.setItem("updateProduct", JSON.stringify(product));
   }

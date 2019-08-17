@@ -199,7 +199,7 @@
 -->
 
 
-  <div *ngIf="form_producto_save || updateProduct">
+  <div *ngIf="!form_producto_save || updateProduct">
     <mat-list-item style="color: blue">Espesifica el producto</mat-list-item>
     <mat-divider></mat-divider>
     <br>
@@ -388,7 +388,7 @@
               </mat-form-field>
               <div *ngIf="formulario.controls.descuento.errors">
                 <div *ngIf="formulario.controls.descuento.errors.pattern">
-                    <div class="alert alert-danger" role="alert"><strong>{{product.descuento}}</strong>, No escribas letras ni caracteres. 
+                    <div class="alert alert-danger" role="alert"><strong>{{product.descuento }}</strong>, No escribas letras ni caracteres. 
                       <mat-icon matSuffix>mood_bad</mat-icon> </div>    
                 </div>
               </div>

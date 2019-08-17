@@ -1,11 +1,13 @@
 import { Component, OnInit, Inject, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { ModelProduct } from 'app/models/product.model';
 import { PublicationComponent } from '../publication/publication.component';
+import { ProductInterationService } from 'app/services/productInteration.service';
 
 @Component({
   selector: 'app-sales',
   templateUrl: './sales.component.html',
   styleUrls: ['./sales.component.scss'],
+  providers: [ProductInterationService]
   
   
 })
@@ -21,18 +23,22 @@ export class SalesComponent implements OnInit {
   public updateProductObjet;
 
   @Output() evento = new EventEmitter;
-  constructor( ) { 
+  constructor( private _productInteractionService: ProductInterationService ) {
     
   }
 
+  
   ngOnInit() {
     if(JSON.parse(localStorage.getItem('list-publication')) != 0){
       this.fullList = true
     }
-  
-    
 
   }
+
+  public eventjose(){
+    this._productInteractionService.send('create');
+  }
+
   public updateProduct(event){
     console.log("prueba : ",event)
     this.updateProductChild = true;
@@ -50,4 +56,5 @@ export class SalesComponent implements OnInit {
     this.newProduct = false;
     this.fullList = true;
   }
+
 }

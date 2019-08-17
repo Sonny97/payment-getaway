@@ -29,9 +29,11 @@
                                             <mat-icon color='warn' mat-list-icon>error_outline</mat-icon>
                                             <h5 mat-line>Aun no tienes publicaciones</h5>
                                         </mat-list-item>
-                                        <button mat-raised-button class="pull-right" color="primary"  (click)="createdProduct()">Nuevo producto</button>
+                                        <button mat-raised-button class="pull-right" color="primary" (click)="eventjose()" (click)="createdProduct()">Nuevo producto</button>
                                         <button mat-raised-button class="pull-right" color="warn" *ngIf="newProduct" (click)="cancelProduct()">Cancelar producto</button>
+                                        
                                         <br>
+                                    
                                         <app-publication-list (_updateProduct)="updateProduct($event)"
                                             *ngIf="fullList && !newProduct" ></app-publication-list>                                 
                                         <app-publication                                        

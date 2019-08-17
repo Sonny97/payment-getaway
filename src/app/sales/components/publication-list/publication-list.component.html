@@ -64,25 +64,29 @@
     </div>
 
     <div class="row" *ngIf="whatchProduct">
-      <div class="col-sm-4"></div>
       <div class="col-sm-4">
-        {{productObject.titulo}}
+        Fecha de Crecion:  <br>
+        {{productObject.Fecha_Creacion}}
       </div>
-      <br>
-      <div class="col-sm-4"></div>
+      <div class="col-sm-4">
+        <div class="card-body border rounded border-danger">
+          {{productObject.titulo}}
+        </div>
+      </div>
+      <div class="col-sm-4"> <button  mat-mini-fab color="warn" pull-right (click)="listProduct()"><mat-icon matSuffix>close</mat-icon></button></div>
       <div class="col-sm-2"></div>
         <div class="col-sm-8" >
           <div class="card-group rounded border border-danger">            
             <div class="card ">               
               <div class="card-body">
-                <p class="card-text">Precio:<br>{{productObject.Precio}}</p>
-                <p class="card-text">Descuento:<br>{{productObject.Precio_descuento}}</p>
-                <p class="card-text">Peso:<br>{{productObject.Peso}}</p>
-                <p class="card-text">Ato:<br>{{productObject.Alto}}</p>
-                <p class="card-text">Largo:<br>{{productObject.Largo}}</p>
-                <p class="card-text">Ancho:<br>{{productObject.Ancho}}</p>
-                <p class="card-text">Color:<br>{{productObject.Color}}</p>
-                <p class="card-text">Talla:<br>{{productObject.Talla}}</p>               
+                <p class="card-text">Precio: {{productObject.Precio | currency:'$'}}</p>
+                <p class="card-text">Descuento: {{productObject.Precio_Descuento | currency:'$'}}</p>
+                <p class="card-text">Peso: {{productObject.Peso  }}</p>
+                <p class="card-text">Ato: {{productObject.Alto}}</p>
+                <p class="card-text">Largo: {{productObject.Largo}}</p>
+                <p class="card-text">Ancho: {{productObject.Ancho}}</p>
+                <p class="card-text">Color: {{productObject.Color}}</p>
+                <p class="card-text">Talla: {{productObject.Talla}}</p>               
               </div>
             </div>
             <div class="card">              
@@ -92,6 +96,8 @@
                 <img class="card-img-top" src="..." alt="Card image cap"><br>
                 <img class="card-img-top" src="..." alt="Card image cap"><br>
                 <img class="card-img-top" src="..." alt="Card image cap"><br>
+                
+                <img class="fixed-bottom" src="..." alt="Card image cap"><br>
               </div>
             </div>
           </div>
@@ -101,7 +107,7 @@
         <div class="card col-sm-8">          
           <div class="card-body border rounded border-danger">
             <h5 class="card-title">Descripcion</h5>
-            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+            <p class="card-text">{{productObject.Descripcion}}.</p>
           </div>
         </div>
         <div class="col-sm-2"></div>
