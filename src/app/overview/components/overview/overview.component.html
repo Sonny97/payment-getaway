@@ -42,7 +42,8 @@
                                                     <mat-list style="margin-left: 5%">
                                                         <mat-list-item>
                                                             <h5 mat-line> 
-                                                                <button class="btn btn-sm">0</button>
+                                                                <button *ngIf="!_active" class="btn btn-sm">{{active}}</button>
+                                                                <button *ngIf="_active" class="btn btn-sm btn-success">{{active}}</button>
                                                                 <a href="javascript:void(0)">  Activas</a>
                                                             </h5>
                                                         </mat-list-item>

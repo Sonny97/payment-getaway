@@ -4,10 +4,9 @@ import { MAT_DIALOG_DATA, MatDialog, MatPaginator, MatTableDataSource } from '@a
 import { ModelProduct } from 'app/models/product.model';
 import { User } from 'app/login/components/login/user/user.model';
 import { JsonPipe } from '@angular/common';
-
-
-
-
+import { LoginService } from 'app/login/services/login.service';
+import { UserService } from 'app/login/services/user.service';
+import { Session } from 'protractor';
 
 @Component({
   selector: 'app-publication-list',
@@ -19,7 +18,9 @@ export class PublicationListComponent implements OnInit {
   public data:any;
   public products : ModelProduct[]
   public productObject : ModelProduct;
-  displayedColumns: string[] = ['Titulo','Descripcion','Precio_descuento','Accion'];
+  displayedColumns: string[] = ['Titulo','Precio','Estado','Accion'];
+  public usersList_Id: any;
+  
   public whatchProduct: boolean = false;
   @Output() _updateProduct = new EventEmitter;
   @Output() _deleteProduct = new EventEmitter;
@@ -27,7 +28,8 @@ export class PublicationListComponent implements OnInit {
 
   // Constructor y Ng Init
   constructor(
-    private productsService : ProductsService,
+    private productsService : ProductsService
+    ,private users:UserService
   ) {
     this.productObject = new ModelProduct;
   }
@@ -35,6 +37,12 @@ export class PublicationListComponent implements OnInit {
   ngOnInit() {
     // Functions
     this.getProductList();
+    this.users.getUsers().subscribe(
+      (response) =>{        
+        this.usersList_Id = response.filter(data=>data.email == JSON.parse(localStorage.getItem('currentUser')).username)
+        localStorage.setItem('usuario',JSON.stringify(this.usersList_Id))     
+      }
+    )
   }
   
 
@@ -49,10 +57,17 @@ export class PublicationListComponent implements OnInit {
   }
   
   public getProductList(){
-
     this.productsService.getProductList().subscribe(
       (response) => {
-        if(!response){return}
+        response = response.filter(data=>data.Creado_Por == JSON.parse(localStorage.getItem('usuario'))[0].id)
+        response = response.filter(data=>data.Estado == 2)
+        // Acivas 2
+        // Elimindas 1
+        // pausadas 0
+        var summary=[
+          {active:response,stop:response.filter(data=>data.Estado == 0),finished:response.filter(data=>data.Estado == 0)}
+        ]        
+        sessionStorage.setItem('summary',JSON.stringify(summary))
         this.data = new MatTableDataSource(response)
         this.data.paginator = this.paginator = this.paginator
         this.data.applyFilter = this.applyFilter;
@@ -78,18 +93,12 @@ export class PublicationListComponent implements OnInit {
 
   public updateProduct(product){
     this._updateProduct.emit()
-    console.log("fasdfsadf : ", product.sku)
     localStorage.setItem("action","upDate")
     sessionStorage.setItem("updateProduct", JSON.stringify(product));
   }
 
-  public deleteProduct(product){    
-    product.Categoria_id = 2;
-    product.Estado  = 1; // ( Requerido )
-    product.Creado_Por = 1; // ( Requerido )
-    product.Modificado_Por = 1; // ( Requerido )
-    product.Fecha_Creacion = "2019-05-21 15:20:00" ; // ( Requerido )
-    product.Fecha_Actualizacion = "2019-05-21 15:20:00"; // ( Requerido )
+  public deleteProduct(product){
+    console.log("Delete",product)   
     this.productsService.deleteProduct(product).subscribe(
       (response)=>{console.log(response)},
       (error)=>{console.log(error)}

@@ -39,8 +39,7 @@ export class SalesComponent implements OnInit {
     this._productInteractionService.send('create');
   }
 
-  public updateProduct(event){
-    console.log("prueba : ",event)
+  public updateProduct(event){    
     this.updateProductChild = true;
     this.updateProductObjet = event
     this.newProduct = true;

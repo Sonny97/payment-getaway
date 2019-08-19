@@ -125,8 +125,7 @@ export class PublicationComponent implements OnInit {
     this.getPublication();
     this.validated_saveProduct();
     
-    if(localStorage.getItem("action")=="upDate"){
-      console.log("actualizar dato: ", this.updateProduct)
+    if(localStorage.getItem("action")=="upDate"){     
       this.update();
     }if(localStorage.getItem("action")=="createNew"){
       console.log("Nuevo dato: ",this.updateProduct)
@@ -401,13 +400,13 @@ export class PublicationComponent implements OnInit {
   }
 
   public saveProduct(value){
+    
     switch(value){
       case 1:
         this.form_producto_save = true;
         break
       case 2: // Create ( Crear dato )
         //console.log(this.product.precio.toString().replace(/\./g, '').replace(/\$ /g, ''))
-        
         if(this.product.titulo ==  null || this.product.titulo ==  ''){
           this.product_titulo_input = true;
         }if(this.product.Descripcion == null || this.product.Descripcion ==  ''){
@@ -415,6 +414,10 @@ export class PublicationComponent implements OnInit {
         }if(this.product.Descripcion != null || this.product.Descripcion !=  ''){
           console.log('POST-CREATE')
           this.product.Fecha_Creacion = new Date().getDate()+"/"+(new Date().getMonth()+1)+"/"+new Date().getFullYear()+"Hora:"+new Date().getHours()+":"+new Date().getMinutes()+"m";
+          this.product.Categoria_id = this.result
+          this.product.Creado_Por = JSON.parse(localStorage.getItem('usuario'))[0].id
+          this.product.Estado = 2
+          console.log(this.product)
           this.publicCategoryserviceService.postProduct(this.product).subscribe(
             (response) => { console.log(response) },
             (error) => { console.log(error) }
@@ -432,7 +435,7 @@ export class PublicationComponent implements OnInit {
         }if(this.product.Descripcion != null || this.product.Descripcion !=  ''){
           console.log("POST-UPDATE")
           this.product.Fecha_Actualizacion = new Date().getDate()+"/"+(new Date().getMonth()+1)+"/"+new Date().getFullYear()+"Hora:"+new Date().getHours()+":"+new Date().getMinutes()+"m";
-          this.publicCategoryserviceService.postProduct(this.product).subscribe(
+          this.productsService.UpdateProduct(this.product).subscribe(
             (response) => { console.log(response) },
             (error) => { console.log(error) }
           )
@@ -461,17 +464,13 @@ export class PublicationComponent implements OnInit {
   }
 
   public validatePrice(event){
-    var item
-    console.log(this.fNumber.go(event,'$'))
-    item  = this.fNumber.go(event,'$')
-    this.product.Precio = item
+    
   }
   public validateDiscount(event){
     
   }
 
   public update(){
-    console.log('para actualizar')
     console.log("UPDAT: ",JSON.parse(sessionStorage.getItem("updateProduct")))
     this.product = JSON.parse(sessionStorage.getItem("updateProduct"))
     sessionStorage.removeItem('updateProduct')

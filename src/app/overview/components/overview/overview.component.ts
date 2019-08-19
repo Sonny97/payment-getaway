@@ -12,7 +12,8 @@ export class OverviewComponent implements OnInit {
   public panelOpenState = false;
   public countQuestions = 0;
   public dataQuestions: any[];
-
+  public active:number = 0;
+  _active:boolean = false
   // kiero points
   public valueBar = 0;
 
@@ -22,6 +23,8 @@ export class OverviewComponent implements OnInit {
     ) { }
 
   ngOnInit() {
+    this.publicationSummary()
+
     this.questionService.getAllQuestions().subscribe(
       res => {
         this.dataQuestions = res;
@@ -50,5 +53,11 @@ export class OverviewComponent implements OnInit {
       },
       err => console.log(err)
     )
+  }
+
+  publicationSummary(){
+    console.log()
+    this.active = JSON.parse(sessionStorage.getItem('summary'))[0].active.length
+    this._active = true
   }
 }

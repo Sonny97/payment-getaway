@@ -1,7 +1,7 @@
 export  class ModelProduct{
     titulo : String; // title ( Requerido )
     Descripcion : String; // ( Requerido )
-    sku : number = 0;
+    SKU : number = 0;
     Peso : number = 0;
     Largo : number = 0;
     Color : String = "";
