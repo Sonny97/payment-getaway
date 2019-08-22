@@ -1,16 +1,16 @@
 import { Component, OnInit, Input } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
-import { FormControl } from '@angular/forms';
+
 import {map, startWith} from 'rxjs/operators';
 import { PublicCategoryserviceService } from 'app/services/publicCategory.service';
-import { THIS_EXPR, ThrowStmt, ReturnStatement } from '@angular/compiler/src/output/output_ast';
-import { User } from 'app/login/components/login/user/user.model';
+
 import { ModelPublication } from './publication.model';
 import { ModelProduct } from 'app/models/product.model';
 import { ProductsService } from 'app/services/products.service';
 import { ProductInterationService } from 'app/services/productInteration.service';
-import { formatCurrency, getCurrencySymbol } from '@angular/common';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 
 
 export interface Transaction {
@@ -37,6 +37,7 @@ export class PublicationComponent implements OnInit {
   public selectClient: any;
   public nextSave: number = 0;
   public category_id : number =0
+  public img:any;
 
   @Input() updateProduct = false;  
   @Input() updateProductObjet:ModelProduct;
@@ -95,12 +96,15 @@ export class PublicationComponent implements OnInit {
   btn_category_save = false // boton de guardado para las categorias
   form_producto_save = false // formulario para guardar producto
   subscription: Subscription;
+  public message: string;
 
   constructor(
     private _formBuilder: FormBuilder
     ,private publicCategoryserviceService : PublicCategoryserviceService
     ,private productsService:ProductsService
     ,private _productInteractionService: ProductInterationService
+    ,private http:HttpClient
+    
   ){
     this.category = new ModelPublication();
     this.product = new ModelProduct();
@@ -109,7 +113,7 @@ export class PublicationComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.subscription = this._productInteractionService.salesEvent$.subscribe(
+    this._productInteractionService.salesEvent$.subscribe(
       (message) =>{
         if(message=='create'){
           console.log("creating");
@@ -119,9 +123,6 @@ export class PublicationComponent implements OnInit {
       },
       (error) =>console.log(error)
     )
-
-
-    
     this.getPublication();
     this.validated_saveProduct();
     
@@ -200,8 +201,7 @@ export class PublicationComponent implements OnInit {
     this.result = JSON.parse(sessionStorage.getItem("listCategoryChild"));
     console.log(this.result)
     for(var i of this.result){
-      this.result = i.id
-      console.log("listCategoryChild : ",this.result)
+      this.result = i.id      
     }
     this.listCategory = this.publicCategory.filter(items => items.parent_id == this.result)
     if(this.listCategory.length > 0){
@@ -233,8 +233,7 @@ export class PublicationComponent implements OnInit {
     this.publicCategory = JSON.parse(sessionStorage.getItem("listCategory"))
     this.result = JSON.parse(sessionStorage.getItem("listCategoryChild_2"))
     for(var i of this.result){
-      this.result = i.id
-      console.log("listCategoryChild : ",this.result)
+      this.result = i.id      
     }
     this.listCategory = this.publicCategory.filter(items => items.parent_id == this.result)
     if(this.listCategory.length > 0){
@@ -252,6 +251,7 @@ export class PublicationComponent implements OnInit {
     if(value){
       const filterValue = value.toLowerCase();
       sessionStorage.setItem("listCategoryChild_3", JSON.stringify(listArray.filter(items => items.name.toLowerCase().indexOf(filterValue) === 0)));
+      this.filter_child_3();
       return listArray.filter(items => items.name.toLowerCase().indexOf(filterValue) === 0)
     }
     else{
@@ -265,8 +265,7 @@ export class PublicationComponent implements OnInit {
     this.publicCategory = JSON.parse(sessionStorage.getItem("listCategory"))
     this.result = JSON.parse(sessionStorage.getItem("listCategoryChild_3"))
     for(var i of this.result){
-      this.result = i.id
-      console.log("listCategoryChild : ",this.result)
+      this.result = i.id      
     }
     this.listCategory = this.publicCategory.filter(items => items.parent_id == this.result)
     if(this.listCategory.length > 0){
@@ -284,6 +283,7 @@ export class PublicationComponent implements OnInit {
     if(value){
       const filterValue = value.toLowerCase();
       sessionStorage.setItem("listCategoryChild_4", JSON.stringify(listArray.filter(items => items.name.toLowerCase().indexOf(filterValue) === 0)));
+      this.filter_child_4()
       return listArray.filter(items => items.name.toLowerCase().indexOf(filterValue) === 0)
     }
     else{
@@ -296,8 +296,7 @@ export class PublicationComponent implements OnInit {
     this.publicCategory = JSON.parse(sessionStorage.getItem("listCategory"))
     this.result = JSON.parse(sessionStorage.getItem("listCategoryChild_4"))
     for(var i of this.result){
-      this.result = i.id
-      console.log("listCategoryChild : ",this.result)
+      this.result = i.id      
     }
     this.listCategory = this.publicCategory.filter(items => items.parent_id == this.result)
     if(this.listCategory.length > 0){
@@ -316,6 +315,7 @@ export class PublicationComponent implements OnInit {
       const filterValue = value.toLowerCase();
       sessionStorage.setItem("listCategoryChild_5", JSON.stringify(listArray.filter(items => items.name.toLowerCase().indexOf(filterValue) === 0)));
       return listArray.filter(items => items.name.toLowerCase().indexOf(filterValue) === 0)
+      this.filter_child_5();
     }
     else{
       return listArray
@@ -327,8 +327,7 @@ export class PublicationComponent implements OnInit {
     this.publicCategory = JSON.parse(sessionStorage.getItem("listCategory"))
     this.result = JSON.parse(sessionStorage.getItem("listCategoryChild_5"))
     for(var i of this.result){
-      this.result = i.id
-      console.log("listCategoryChild : ",this.result)
+      this.result = i.id      
     }
     this.listCategory = this.publicCategory.filter(items => items.parent_id == this.result)
     if(this.listCategory.length > 0){
@@ -347,6 +346,7 @@ export class PublicationComponent implements OnInit {
       const filterValue = value.toLowerCase();
       sessionStorage.setItem("listCategoryChild_6", JSON.stringify(listArray.filter(items => items.name.toLowerCase().indexOf(filterValue) === 0)));
       return listArray.filter(items => items.name.toLowerCase().indexOf(filterValue) === 0)
+      this.filter_child_6();
     }
     else{
       return listArray
@@ -359,8 +359,7 @@ export class PublicationComponent implements OnInit {
     this.publicCategory = JSON.parse(sessionStorage.getItem("listCategory"))
     this.result = JSON.parse(sessionStorage.getItem("listCategoryChild_6"))
     for(var i of this.result){
-      this.result = i.id
-      console.log("listCategoryChild : ",this.result)
+      this.result = i.id    
     }
     this.listCategory = this.publicCategory.filter(items => items.parent_id == this.result)
     if(this.listCategory.length > 0){
@@ -398,6 +397,13 @@ export class PublicationComponent implements OnInit {
     })
     
   }
+  selectedFile:File= null;
+  onFileUpload(event){
+    this.selectedFile = <File>event.target.files[0]; 
+    
+  }
+
+   
 
   public saveProduct(value){
     
@@ -413,9 +419,21 @@ export class PublicationComponent implements OnInit {
           this.product_descripcion_input = true;
         }if(this.product.Descripcion != null || this.product.Descripcion !=  ''){
           console.log('POST-CREATE')
+
           this.product.Fecha_Creacion = new Date().getDate()+"/"+(new Date().getMonth()+1)+"/"+new Date().getFullYear()+"Hora:"+new Date().getHours()+":"+new Date().getMinutes()+"m";
+
           this.product.Categoria_id = this.result
           this.product.Creado_Por = JSON.parse(localStorage.getItem('usuario'))[0].id
+
+          console.log(this.selectedFile)
+          
+          const formData = new FormData();
+          formData.append("name", "Name");           
+          formData.append('file',this.selectedFile)
+          console.log(formData.getAll)
+
+          this.product.Imagenes_1 = formData.getAll
+
           this.product.Estado = 2
           console.log(this.product)
           this.publicCategoryserviceService.postProduct(this.product).subscribe(
@@ -463,17 +481,32 @@ export class PublicationComponent implements OnInit {
     }
   }
 
-  public validatePrice(event){
-    
-  }
-  public validateDiscount(event){
-    
-  }
-
+  public validatePrice(event){}
+  public validateDiscount(event){}
   public update(){
     console.log("UPDAT: ",JSON.parse(sessionStorage.getItem("updateProduct")))
     this.product = JSON.parse(sessionStorage.getItem("updateProduct"))
-    sessionStorage.removeItem('updateProduct')
+    sessionStorage.removeItem('updateProduct')    
+  }
+ 
+  preview(event) {
+    var mimeType = event[0].type;
+    if (mimeType.match(/image\/*/) == null) {
+      alert("Solo imagenes")
+      return;
+    } 
+    var reader = new FileReader();
+    reader.readAsDataURL(event[0]); 
+    reader.onload = () => { 
+       reader.result; 
+    }
+  }
+  
+  onUploadFile(){
+    const fd = new FormData();
+    fd.append('image',this.selectedFile,this.selectedFile.name)
+    console.log("Image 2",fd)
     
   }
+  
 }

@@ -32,6 +32,11 @@ export class PublicCategoryserviceService {
   
 
   public postProduct(product:ModelProduct){    
+    const httpOptions = {
+      headers: new HttpHeaders({        
+        'Content-Type': 'multipart/form-data'
+      })
+    };
     return this.http.post("http://127.0.0.1:54600/router_product",product);
   }
 

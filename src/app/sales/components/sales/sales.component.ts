@@ -35,7 +35,11 @@ export class SalesComponent implements OnInit {
 
   }
 
-  public eventjose(){
+  jose(){
+    window.alert('You will be notified when the product goes on sale');
+  }
+
+  public eventCreate(){
     this._productInteractionService.send('create');
   }
 

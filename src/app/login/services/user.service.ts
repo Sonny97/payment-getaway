@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { User } from 'app/login/components/login/user/user.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { ProductInterationService } from 'app/services/productInteration.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class UserService {
   private isUserLoggedIn;
   public usserLogged: User;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,private _productInteractionService: ProductInterationService) {
     this.isUserLoggedIn = false;
   }
 
@@ -18,7 +19,7 @@ export class UserService {
     this.isUserLoggedIn = true;
     this.usserLogged = user;
     localStorage.setItem('currentUser', JSON.stringify(user));    
-
+   
   }
 
   getUserLoggedIn() {

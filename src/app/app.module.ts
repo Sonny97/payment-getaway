@@ -20,7 +20,7 @@ import { environment } from '../environments/environment';
 
 
 @NgModule({
-  imports: [
+  imports: [    
     AngularMaterialModule,
     BrowserAnimationsModule,
     FormsModule,
@@ -38,10 +38,11 @@ import { environment } from '../environments/environment';
   ],
   declarations: [
     AppComponent,
-    AdminLayoutComponent
+    AdminLayoutComponent,    
   ],
   providers: [
   ],
+  
   bootstrap: [AppComponent]
 })
 export class AppModule { }

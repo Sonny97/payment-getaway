@@ -10,7 +10,11 @@ export  class ModelProduct{
     Talla : String = "0";
     Precio:number = 0;
     Precio_Descuento:number = 0;
-    
+    Stock_Limite: number = 0;
+    Stock_Actual: number = 0;
+
+    //Img
+    Imagenes_1: any = null
 
     // Campos Desarrollador
     Producto_Id : any = 0;

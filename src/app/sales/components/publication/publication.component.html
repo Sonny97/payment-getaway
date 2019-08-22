@@ -236,15 +236,44 @@
           <mat-hint>Describa el producto.</mat-hint>      
         </mat-form-field>      
       </div>
+      <br>
+      <div class="col-sm-6">
+        <!-- input : Stock_Actual -->
+        <mat-form-field appearance="legacy" style="width: 100%">
+          <mat-label>Stock Actual </mat-label>
+            <input matInput placeholder="Stock Actual" type="number" [(ngModel)]="product.Stock_Actual" autocomplete="off">           
+          <mat-hint>Ingrese el numero de productos actuales.</mat-hint>      
+        </mat-form-field>
+      </div>
+
+      <div class="col-sm-6">
+        <!-- input : Stock_Limite -->
+        <mat-form-field appearance="legacy" style="width: 100%">
+          <mat-label>Stock Limite</mat-label>
+            <input matInput type="number" placeholder="Stock limite" [(ngModel)]="product.Stock_Limite" autocomplete="off">            
+          <mat-hint>Ingresa el Limite de productos.</mat-hint>      
+        </mat-form-field>
+        <br>
+      </div>
     </div>
     <br>
+   
     <mat-list-item style="color: blue">Ingresa imagenes para el producto</mat-list-item>
     <mat-divider></mat-divider>
       <br>
-      <div class="row">    
+      <div class="row">         
+        <span style="color:red;" *ngIf="message">{{message}}</span>
         
-      </div><br>
+        <div col-sm-3>
+          <!--input  #img1 type="file" accept='image/*'   (change)="preview(img1.files)" /><br>
+          <img [src]="product.Imagenes_1" height="200" width="200px" *ngIf="product.Imagenes_1"-->
+          <input  type="file" accept='image/*' (change)="onFileUpload($event)"  /><br>
+        
+          
+        
+        </div>
 
+      </div><br>
     <mat-list-item style="color: blue">Caracteriesticas del el producto</mat-list-item>
     <mat-divider></mat-divider>
     <br>
@@ -254,7 +283,7 @@
             <div class="col-sm-4">
               <mat-form-field appearance="legacy" style="width: 100%" >
                 <mat-label>Largo</mat-label>
-                  <input matInput placeholder="Largo" formControlName="largo" [(ngModel)]="product.Largo" autocomplete="off">
+                  <input matInput placeholder="Largo" formControlName="largo" type="number" [(ngModel)]="product.Largo" autocomplete="off">
                   <mat-hint>Ingresa el largo en unidad de metros( M ).</mat-hint>
                   <mat-icon *ngIf="!formulario.controls.largo.errors"class="formIsGood" matSuffix>done</mat-icon>  
                   <mat-icon *ngIf="formulario.controls.largo.errors" class="formIsBad" matSuffix>close</mat-icon>   
@@ -269,7 +298,7 @@
             <div class="col-sm-4">
               <mat-form-field appearance="legacy" style="width: 100%" >
                 <mat-label>Alto</mat-label>
-                  <input matInput placeholder="Alto" formControlName="alto" [(ngModel)]="product.Alto" autocomplete="off">
+                  <input matInput placeholder="Alto" formControlName="alto" type="number" [(ngModel)]="product.Alto" autocomplete="off">
                   <mat-hint>Ingresa el alto en unidad de metros( M ).</mat-hint>
                   <mat-icon *ngIf="!formulario.controls.alto.errors"class="formIsGood" matSuffix>done</mat-icon>  
                   <mat-icon *ngIf="formulario.controls.alto.errors" class="formIsBad" matSuffix>close</mat-icon>   
@@ -288,7 +317,7 @@
             <div class="col-sm-4">
               <mat-form-field appearance="legacy" style="width: 100%" >
                 <mat-label>Ancho</mat-label>
-                  <input matInput placeholder="Ancho" formControlName="ancho" [(ngModel)]="product.Ancho" autocomplete="off">
+                  <input matInput placeholder="Ancho" formControlName="ancho" type="number" [(ngModel)]="product.Ancho" autocomplete="off">
                   <mat-hint>Ingresa el Ancho en unidad de metros( M ).</mat-hint>
                   <mat-icon *ngIf="!formulario.controls.ancho.errors"class="formIsGood" matSuffix>done</mat-icon>  
                   <mat-icon *ngIf="formulario.controls.ancho.errors" class="formIsBad" matSuffix>close</mat-icon>   
@@ -303,7 +332,7 @@
             <div class="col-sm-4">
               <mat-form-field appearance="legacy" style="width: 100%" >
                 <mat-label>Peso</mat-label>
-                  <input matInput placeholder="Peso" maxlength="6" formControlName="peso" [(ngModel)]="product.Peso" autocomplete="off">
+                  <input matInput placeholder="Peso" maxlength="6" type="number" formControlName="peso" [(ngModel)]="product.Peso" autocomplete="off">
                   <mat-hint>Ingresa el Peso en unidad de libreas( Lb ).</mat-hint>
                   <mat-icon *ngIf="!formulario.controls.peso.errors"class="formIsGood" matSuffix>done</mat-icon>  
                   <mat-icon *ngIf="formulario.controls.peso.errors" class="formIsBad" matSuffix>close</mat-icon>   
@@ -311,7 +340,7 @@
             </div>
             <div *ngIf="formulario.controls.peso.errors">
                 <div *ngIf="formulario.controls.peso.errors.pattern">
-                    <div class="alert alert-danger" role="alert"><strong>{{product.peso}}</strong>, No asignes letras ni caracteres 
+                    <div class="alert alert-danger" type="number" role="alert"><strong>{{product.peso}}</strong>, No asignes letras ni caracteres 
                       <mat-icon matSuffix>mood_bad</mat-icon> </div>    
                 </div>
             </div>
@@ -329,7 +358,7 @@
             <div class="col-sm-4">
               <mat-form-field appearance="legacy" style="width: 100%" >
                 <mat-label>Color</mat-label>
-                  <input matInput placeholder="Color" maxlength="23" formControlName="color" [(ngModel)]="product.Color" autocomplete="off">
+                  <input matInput placeholder="Color" maxlength="23" formControlName="color"  [(ngModel)]="product.Color" autocomplete="off">
                   <mat-hint>Ingresa el Color.</mat-hint>
                   <mat-icon *ngIf="!formulario.controls.color.errors"class="formIsGood" matSuffix>done</mat-icon>  
                   <mat-icon *ngIf="formulario.controls.color.errors" class="formIsBad" matSuffix>close</mat-icon>   
@@ -353,6 +382,7 @@
               <mat-form-field appearance="legacy" style="width: 100%" >
                 <mat-label>Precio</mat-label>
                   <input
+                  type="number"
                   digitOnly
                   matInput placeholder="Precio" s
                   maxlength="25"
@@ -375,6 +405,7 @@
               <mat-form-field appearance="legacy" style="width: 100%" >
                 <mat-label>Precio con descuento</mat-label>
                   <input
+                  type="number"
                   digitOnly 
                   matInput placeholder="Precio con descuento" 
                   maxlength="25" 

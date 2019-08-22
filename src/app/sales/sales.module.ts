@@ -5,17 +5,17 @@ import { AngularMaterialModule } from 'app/angular-material/angular-material.mod
 import { OverviewModule } from 'app/overview/overview.module';
 import { PublicationComponent } from './components/publication/publication.component';
 import { PublicationListComponent } from './components/publication-list/publication-list.component';
+import { EstatusProductPipe } from 'app/pipes/estatus-product.pipe';
+
 
 @NgModule({
-  declarations: [SalesComponent, PublicationComponent, PublicationListComponent ],
+  declarations: [SalesComponent, PublicationComponent, PublicationListComponent,EstatusProductPipe ],
   imports: [
     CommonModule,
     AngularMaterialModule,
-    OverviewModule
+    OverviewModule,
+    
   ],
-  entryComponents:[
-
-  ]
-
+  entryComponents:[],
 })
 export class SalesModule { }

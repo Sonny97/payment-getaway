@@ -6,6 +6,7 @@ import { QuestionComponent } from './components/questions/question.component';
 import { QuestionsService } from './services/questions.service';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { ProductInterationService } from 'app/services/productInteration.service';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule
   ],
   providers: [
-    QuestionsService
+    QuestionsService,
+    ProductInterationService
   ],
   entryComponents: [
     QuestionComponent

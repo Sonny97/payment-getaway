@@ -50,24 +50,26 @@
 
                                                         <mat-list-item>
                                                             <h5 mat-line> 
-                                                                <button class="btn btn-sm">0</button>
+                                                                <button *ngIf="!_stop" class="btn btn-sm">{{stop}}</button>
+                                                                <button *ngIf="_stop" class="btn btn-sm btn-danger">{{stop}}</button>
                                                                 <a href="javascript:void(0)">  Pausadas</a>
                                                             </h5>
                                                         </mat-list-item>
 
                                                         <mat-list-item>
                                                             <h5 mat-line> 
-                                                                <button class="btn btn-sm">0</button>
+                                                                <button *ngIf="!_finished" class="btn btn-sm">{{finished}}</button>
+                                                                <button *ngIf="_finished" class="btn btn-sm btn-warning">{{finished}}</button>
                                                                 <a href="javascript:void(0)">  Finalizadas</a>
                                                             </h5>
                                                         </mat-list-item>
 
-                                                        <mat-list-item>
+                                                        <!-- mat-list-item>
                                                             <h5 mat-line> 
                                                                 <button class="btn btn-sm">0</button>
                                                                 <a href="javascript:void(0)">  Por revisar</a>
                                                             </h5>
-                                                        </mat-list-item>
+                                                        </mat-list-item-->
 
                                                     </mat-list>
                                                 </mat-card-content>

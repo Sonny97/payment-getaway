@@ -51,6 +51,12 @@ export class ProductsService {
   public UpdateProduct(product:ModelProduct){
     return this.http.post(`${this.URL}/router_product`,product);
   }
+  /**
+  * Stop Product PYTHON
+  */
+  public stopProduct(product:ModelProduct){
+    return this.http.put(`${this.URL}/router_product`,product)
+  }
 }
 
 

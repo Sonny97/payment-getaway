@@ -37,8 +37,8 @@
                             </ng-container>
                             
                             <ng-container matColumnDef="Estado">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: medium"> Estado </th>
-                                <td mat-cell *matCellDef="let row" style="font-size: small"> {{row.Estado }} </td>
+                              <th mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: medium"> Estado </th>
+                              <td mat-cell *matCellDef="let row" style="font-size: small"> {{row.Estado | estatusProduct }} </td>
                             </ng-container>
                             <ng-container matColumnDef="Accion">
                               <th mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: medium"> Accion </th>
@@ -46,11 +46,13 @@
                                   <mat-button-toggle class="btn-info" style="font-size: x-small" (click)="whatProduct(row)">Ver</mat-button-toggle>
                                   <mat-button-toggle class="btn-warning" style="font-size: x-small" (click)="updateProduct(row)">Editar</mat-button-toggle>
                                   <mat-button-toggle class="btn-danger" style="font-size: x-small" (click)="deleteProduct(row)">Eliminar</mat-button-toggle>
-                                  <mat-button-toggle class="btn-secondary" style="font-size: x-small" (click)="deleteProduct(row)">Pausar</mat-button-toggle>
+                                  <mat-button-toggle class="btn-secondary" *ngIf="!product_estatus"  style="font-size: x-small" (click)="stopProduct(row)">Pausar</mat-button-toggle>
+                                  <mat-button-toggle class="btn-success" *ngIf="product_estatus" style="font-size: x-small" (click)="activeProduct(row)">Activar</mat-button-toggle>
                               </mat-button-toggle-group>
                             </ng-container>
                             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                           
                         </table>
                         <br>
                         <mat-paginator #paginator
@@ -83,7 +85,7 @@
                 <p class="card-text">Precio: {{productObject.Precio | currency:'$'}}</p>
                 <p class="card-text">Descuento: {{productObject.Precio_Descuento | currency:'$'}}</p>
                 <p class="card-text">Peso: {{productObject.Peso  }}</p>
-                <p class="card-text">Ato: {{productObject.Alto}}</p>
+                <p class="card-text">Ato: {{productObject.Alto }}</p>
                 <p class="card-text">Largo: {{productObject.Largo}}</p>
                 <p class="card-text">Ancho: {{productObject.Ancho}}</p>
                 <p class="card-text">Color: {{productObject.Color}}</p>

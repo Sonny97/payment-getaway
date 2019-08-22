@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { UserService } from 'app/login/services/user.service';
 import { MatSnackBar } from '@angular/material';
 import { User } from './user/user.model';
+import { ProductInterationService } from 'app/services/productInteration.service';
 
 @Component({
   selector: 'app-login',
@@ -21,12 +22,14 @@ export class LoginComponent implements OnInit {
     private loginService: LoginService,
     private router: Router,
     private userService: UserService,
-    private _snackBar: MatSnackBar) { }
+    private _snackBar: MatSnackBar,
+    private _productInterationService: ProductInterationService) { }
 
   ngOnInit() {
     const user = this.userService.getUserLoggedIn() == null ? {} : this.userService.getUserLoggedIn();
     if (user.tkn) {
       this.navigate()
+    
     }
   }
 
@@ -54,7 +57,7 @@ export class LoginComponent implements OnInit {
   }
 
   navigate() {
-    this.router.navigateByUrl('/overview');
+    this.router.navigateByUrl('/sales');
   }
 
 }
