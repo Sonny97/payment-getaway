@@ -34,6 +34,6 @@ export class UserService {
   * getUsers PYTHON
   */
   public getUsers(): Observable<any>{
-  return this.http.get<any>('http://127.0.0.1:54600/router_userss')
+  return this.http.get<any>('http://127.0.0.1:54600/router_users')
 }
 }

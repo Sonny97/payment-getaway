@@ -54,6 +54,8 @@
     "rxjs-compat": "6.5.2",
     "select2": "^4.0.8",
     "select2-bootstrap-theme": "0.1.0-beta.10",
+    "sweetalert": "^2.1.2",
+    "sweetalert2": "^8.16.3",
     "web-animations-js": "2.3.1",
     "zone.js": "0.9.1"
   },

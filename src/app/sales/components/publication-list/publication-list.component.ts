@@ -5,6 +5,8 @@ import { ModelProduct } from 'app/models/product.model';
 import { UserService } from 'app/login/services/user.service';
 import { ProductInterationService } from 'app/services/productInteration.service';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import Swal from'sweetalert2';
+import { User } from 'app/login/components/login/user/user.model';
 
 @Component({
   selector: 'app-publication-list',
@@ -14,7 +16,10 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 export class PublicationListComponent implements OnInit {
   // Variables
   public data:any;
+  // Model
   public products : ModelProduct[]
+  public modelUser:User
+
   public productObject : ModelProduct;
   displayedColumns: string[] = ['Titulo','Precio','Estado','Accion'];
   public usersList_Id: any;
@@ -24,6 +29,7 @@ export class PublicationListComponent implements OnInit {
   public whatchProduct: boolean = false;
   @Output() _updateProduct = new EventEmitter;
   @Output() _deleteProduct = new EventEmitter;
+  @Output() _lisProduct = new EventEmitter;
   closeResult: string;
   
 
@@ -33,13 +39,16 @@ export class PublicationListComponent implements OnInit {
     private users:UserService,
     public dialog: MatDialog,
     private _productInterationService: ProductInterationService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+     
   ) {
     this.productObject = new ModelProduct;
+    
   }
 
   ngOnInit() {
     // Functions
+    console.log("MOdelo USuario:", this.modelUser)
     this.getProductList();
    
     this._productInterationService.summaryEvent$.subscribe(
@@ -54,7 +63,8 @@ export class PublicationListComponent implements OnInit {
       (error) =>console.log(error)
     )
     this.users.getUsers().subscribe(
-      (response) =>{        
+      (response) =>{
+        console.log(response)    
         this.usersList_Id = response.filter(data=>data.email == JSON.parse(localStorage.getItem('currentUser')).username)
         localStorage.setItem('usuario',JSON.stringify(this.usersList_Id))     
       }
@@ -74,8 +84,7 @@ export class PublicationListComponent implements OnInit {
   
   public getProductList(){
     this.productsService.getProductList().subscribe(
-      (response) => {
-        console.log(response)
+      (response) => {      
         response = response.filter(data=>data.Creado_Por == JSON.parse(localStorage.getItem('usuario'))[0].id)
         response = response.filter(data=>data.Estado != 1)
         // Acivas 2
@@ -99,13 +108,13 @@ export class PublicationListComponent implements OnInit {
   }
     //(response) => { console.log('Response_Product : ',response) },
     //(error) => { console.log('Error_Product : ',error) }
-  public whatProduct(product){
-    console.log("Poduct : ",product)
+  public whatProduct(product){   
     this.whatchProduct = true;
     this.productObject = product;
   }
-  public listProduct(){   
+  public listProductClose(){   
     this.whatchProduct = false;
+    this.getProductList()
   }
 
   public updateProduct(product){
@@ -122,7 +131,7 @@ export class PublicationListComponent implements OnInit {
     product.Estado = 0;    
     this.productsService.stopProduct(product).subscribe(
       (response)=>{
-        console.log("Producto pausado"); 
+        Swal.fire("Listo","Producto pausado", "success")
         this.getProductList();
       }
     )
@@ -133,12 +142,11 @@ export class PublicationListComponent implements OnInit {
     product.Estado = 2;
     this.productsService.stopProduct(product).subscribe(
       (Response)=>{
-        console.log("Producto Activo")
+        Swal.fire( "Listo" ,  "Producto Activo" ,  "success" )
         this.getProductList();       
       }
     )
-    this.product_estatus=false
-    
+    this.product_estatus=false    
   }
   /**
   * Eliminar producto
@@ -146,12 +154,13 @@ export class PublicationListComponent implements OnInit {
   public deleteProduct(product){
     product.Estado = 1;
     this.productsService.stopProduct(product).subscribe(
-      (Response)=>{
-        console.log("Producto Eliminado")
+      (Response)=>{           
+        Swal.fire( "Listo" ,  "Producto Eliminado" ,  "success" )
         this.getProductList();
     }
     )    
-  }  
+  } 
+ 
 }
 
 

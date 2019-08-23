@@ -4,7 +4,8 @@ import { Observable, Subscription } from 'rxjs';
 
 import {map, startWith} from 'rxjs/operators';
 import { PublicCategoryserviceService } from 'app/services/publicCategory.service';
-
+import Swal from'sweetalert2';
+import { Router } from '@angular/router';
 import { ModelPublication } from './publication.model';
 import { ModelProduct } from 'app/models/product.model';
 import { ProductsService } from 'app/services/products.service';
@@ -104,6 +105,7 @@ export class PublicationComponent implements OnInit {
     ,private productsService:ProductsService
     ,private _productInteractionService: ProductInterationService
     ,private http:HttpClient
+    ,public router:Router
     
   ){
     this.category = new ModelPublication();
@@ -397,11 +399,7 @@ export class PublicationComponent implements OnInit {
     })
     
   }
-  selectedFile:File= null;
-  onFileUpload(event){
-    this.selectedFile = <File>event.target.files[0]; 
-    
-  }
+  
 
    
 
@@ -417,28 +415,24 @@ export class PublicationComponent implements OnInit {
           this.product_titulo_input = true;
         }if(this.product.Descripcion == null || this.product.Descripcion ==  ''){
           this.product_descripcion_input = true;
+          Swal.fire("Problemas !","Valida Los campos \r descripción","error");
         }if(this.product.Descripcion != null || this.product.Descripcion !=  ''){
           console.log('POST-CREATE')
 
           this.product.Fecha_Creacion = new Date().getDate()+"/"+(new Date().getMonth()+1)+"/"+new Date().getFullYear()+"Hora:"+new Date().getHours()+":"+new Date().getMinutes()+"m";
 
           this.product.Categoria_id = this.result
-          this.product.Creado_Por = JSON.parse(localStorage.getItem('usuario'))[0].id
+          //this.product.Creado_Por = JSON.parse(localStorage.getItem('usuario'))[0].id
 
-          console.log(this.selectedFile)
           
-          const formData = new FormData();
-          formData.append("name", "Name");           
-          formData.append('file',this.selectedFile)
-          console.log(formData.getAll)
-
-          this.product.Imagenes_1 = formData.getAll
+      
 
           this.product.Estado = 2
-          console.log(this.product)
+         
           this.publicCategoryserviceService.postProduct(this.product).subscribe(
             (response) => { console.log(response) },
             (error) => { console.log(error) }
+            
           )
         }
         break
@@ -455,8 +449,10 @@ export class PublicationComponent implements OnInit {
           this.product.Fecha_Actualizacion = new Date().getDate()+"/"+(new Date().getMonth()+1)+"/"+new Date().getFullYear()+"Hora:"+new Date().getHours()+":"+new Date().getMinutes()+"m";
           this.productsService.UpdateProduct(this.product).subscribe(
             (response) => { console.log(response) },
-            (error) => { console.log(error) }
+            (error) => { console.log(error) }            
           )
+          Swal.fire("Completado","Producto actualizado","success");
+          this.router.navigateByUrl('/overview');
         }
         break
     }
@@ -502,11 +498,5 @@ export class PublicationComponent implements OnInit {
     }
   }
   
-  onUploadFile(){
-    const fd = new FormData();
-    fd.append('image',this.selectedFile,this.selectedFile.name)
-    console.log("Image 2",fd)
-    
-  }
   
 }

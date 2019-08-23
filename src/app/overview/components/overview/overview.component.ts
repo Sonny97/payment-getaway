@@ -31,8 +31,8 @@ export class OverviewComponent implements OnInit {
     public dialog: MatDialog,
     private _productInterationService: ProductInterationService){ }
 
-  ngOnInit() {  
-    this._productInterationService.summarySend("Log")
+  ngOnInit() {
+  this.publicationSummary()   
     this.questionService.getAllQuestions().subscribe(
       res => {
         this.dataQuestions = res;
@@ -64,19 +64,29 @@ export class OverviewComponent implements OnInit {
     )
   }
 
-  publicationSummary(){
-    console.log(JSON.parse(sessionStorage.getItem('summary')))
-    if(JSON.parse(sessionStorage.getItem('summary'))[0].active.length > 0){
-      this.active = JSON.parse(sessionStorage.getItem('summary'))[0].active.length
-      this._active = true
-    }
-    if(JSON.parse(sessionStorage.getItem('summary'))[0].stop.length > 0){
-      this.stop = JSON.parse(sessionStorage.getItem('summary'))[0].stop.length
-      this._stop = true
-    }
-    if(JSON.parse(sessionStorage.getItem('summary'))[0].finished.length > 0){
-      this.finished = JSON.parse(sessionStorage.getItem('summary'))[0].finished.length
-      this._finished = true
+  publicationSummary(){   
+    if(JSON.parse(sessionStorage.getItem('summary'))){
+      if(JSON.parse(sessionStorage.getItem('summary'))[0].active.length > 0){    
+        this.active = JSON.parse(sessionStorage.getItem('summary'))[0].active.length
+        this._active = true
+      }else{
+        this.active = 0
+        this._active = false
+      }
+      if(JSON.parse(sessionStorage.getItem('summary'))[0].stop.length > 0){
+        this.stop = JSON.parse(sessionStorage.getItem('summary'))[0].stop.length
+        this._stop = true
+      }else{
+        this.stop = 0
+        this._stop = false
+      }
+      if(JSON.parse(sessionStorage.getItem('summary'))[0].finished.length > 0){
+        this.finished = JSON.parse(sessionStorage.getItem('summary'))[0].finished.length
+        this._finished = true
+      }else{
+        this.finished = 0
+        this._finished = false
+      }
     }
   }
 }
